@@ -24,13 +24,14 @@ export class PlacemarkService {
         axios.defaults.headers.common["Authorization"] = "";
     }
 
-    async signup(firstName, lastName, email, password) {
+    async signup(firstName, lastName, email, password, username) {
         try {
             const userDetails = {
                 firstName: firstName,
                 lastName: lastName,
                 email: email,
                 password: password,
+                username: username
             };
             await axios.post(this.baseUrl + "/api/users", userDetails);
             return true;
