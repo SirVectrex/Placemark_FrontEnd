@@ -1,3 +1,13 @@
+<script>
+
+    import {getContext} from "svelte";
+
+    const placemarkservice = getContext("PlacemarkService");
+    $: showLogin = placemarkservice.loggedIn
+
+</script>
+
+
 <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <a class="navbar-item" href="/#/">
@@ -27,12 +37,21 @@
         <div class="navbar-end">
             <div class="navbar-item">
                 <div class="buttons">
-                    <a class="button is-light" href="/#/login">
-                        Log in
-                    </a>
-                    <a class="button is-light" href="/#/signup">
-                        Sign up
-                    </a>
+                    {#if !showLogin}
+                        <a class="button is-light" href="/#/login">
+                            Log in
+                        </a>
+                        <a class="button is-light" href="/#/signup">
+                            Sign up
+                        </a>
+                    {/if}
+                    {#if showLogin}
+                        <a class="button is-light" href="/#/logout">
+                            Log Out
+                        </a>
+                    {/if}
+
+
 
                 </div>
             </div>

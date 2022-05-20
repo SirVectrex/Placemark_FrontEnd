@@ -6,9 +6,12 @@
     import Navbar from "./pages/components/Navbar.svelte";
     import About from "./pages/About.svelte";
     import { PlacemarkService } from "./services/placemarkService.js";
-    import {getContext, setContext} from "svelte";
-    const placemarkService = getContext("PlaceMarkService");
-    setContext("PlacemarkService", new placemarkService("http://localhost:4000"));
+    import {setContext} from "svelte";
+    // setContext("PlacemarkService", new PlacemarkService("http://localhost:4000"));
+    setContext("PlacemarkService", new PlacemarkService("https://wahi-backend.herokuapp.com"));
+
+
+
 
     let routes = {
         "/": Main,
