@@ -1,4 +1,6 @@
 import axios from "axios";
+import { loggedin } from "./stores.js"
+
 
 export class PlacemarkService {
     baseUrl = "";
@@ -12,8 +14,8 @@ export class PlacemarkService {
         try {
             const response = await axios.post(`${this.baseUrl}/api/users/authenticate`, {email, password});
             axios.defaults.headers.common["Authorization"] = "Bearer " + response.data.token;
-            this.loggedIn = true;
-            console.log("LOGIN IS TRUE!")
+            loggedin.set(true);
+            console.log("LOGGED IN!")
             if (response.data.success) {
                 return true;
             }
@@ -25,7 +27,8 @@ export class PlacemarkService {
 
     async logout() {
         axios.defaults.headers.common["Authorization"] = "";
-        this.loggedIn = false;
+        loggedin.set(false);
+        console.log("LOGGED OUT!")
     }
 
     async signup(firstName, lastName, email, password) {

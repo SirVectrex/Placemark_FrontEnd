@@ -1,9 +1,21 @@
 <script>
 
     import {getContext} from "svelte";
+    import {push} from "svelte-spa-router";
+    import {loggedin} from "/src/services/stores.js";
 
     const placemarkservice = getContext("PlacemarkService");
-    $: showLogin = placemarkservice.loggedIn
+
+    let stat;
+    loggedin.subscribe(value => {
+        stat = value;
+    });
+
+
+    async function funclogout() {
+        await placemarkservice.logout();
+    }
+
 
 </script>
 
@@ -36,19 +48,23 @@
 
         <div class="navbar-end">
             <div class="navbar-item">
+                status: {stat}
                 <div class="buttons">
-                    {#if !showLogin}
+                    {#if !stat}
                         <a class="button is-light" href="/#/login">
                             Log in
                         </a>
                         <a class="button is-light" href="/#/signup">
                             Sign up
                         </a>
+
                     {/if}
-                    {#if showLogin}
-                        <a class="button is-light" href="/#/logout">
+                    {#if stat}
+                        <div>
+                        <button id="logout" class="button is-light" on:click|once={funclogout}>
                             Log Out
-                        </a>
+                        </button>
+                        </div>
                     {/if}
 
 

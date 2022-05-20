@@ -24,12 +24,15 @@
 
 
 
-<div class="container">
+<div class="container is-fullhd">
 
     <div class="container">
         <Navbar/>
+    </div>
+    <div class="container is-fullhd">
         <Router {routes}/>
     </div>
+
 </div>
 
 <style>
