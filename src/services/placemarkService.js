@@ -37,7 +37,7 @@ export class PlacemarkService {
                 password: password,
             };
             console.log(userDetails)
-            await axios.post(this.baseUrl + "/api/adduser", userDetails);
+            await axios.post(this.baseUrl + "/api/addUser", userDetails);
             return true;
         } catch (error) {
             return false;
