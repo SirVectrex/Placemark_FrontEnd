@@ -10,6 +10,17 @@ export class PlacemarkService {
         this.baseUrl = baseUrl;
     }
 
+    async getPois(){
+        try {
+            // api/getPlacemarks
+            const response = await axios.get(this.baseUrl + "/api/getPlacemarks");
+            console.log(response.data);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     async login(email, password) {
         try {
             const response = await axios.post(`${this.baseUrl}/api/users/authenticate`, {email, password});

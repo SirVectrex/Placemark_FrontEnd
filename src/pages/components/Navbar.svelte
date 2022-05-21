@@ -41,6 +41,9 @@
             <a class="navbar-item" href="/#/explore">
                 Explore
             </a>
+            <a class="navbar-item" href="/#/map">
+                Map
+            </a>
             <a class="navbar-item" href="/#/about">
                 About Us
             </a>

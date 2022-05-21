@@ -30,8 +30,15 @@ export class LeafletMap {
             minZoom: descriptor.minZoom,
             zoomControl: false,
             layers: [defaultLayer],
+            // click event
+        });
+
+        this.imap.on('click', function (e) {
+            console.log(e.latlng);
         });
     }
+
+
 
     addLayer(title, layer) {
         this.overlays[title] = layer;
@@ -86,5 +93,10 @@ export class LeafletMap {
         this.imap.invalidateSize();
         let hiddenMethodMap = this.imap;
         hiddenMethodMap._onResize();
+    }
+
+    // create a click event
+    addClickEvent(callback) {
+        this.imap.on("click", callback);
     }
 }
