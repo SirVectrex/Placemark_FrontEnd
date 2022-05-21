@@ -1,10 +1,47 @@
-<script>
-    import POIMap from "./components/POIMap.svelte";
-</script>
 
+{#if stat}
 <div class="box">
+    <button class="button" on:click={() => newpoi = !newpoi}>Add new POI</button>
+    <button class="button" on:click={() => details = !details}>Show Details</button>
+</div>
+    {/if}
+<div class="tile is-ancestor">
+    {#if newpoi }
+        <div class="tile is-4 is-vertical is-parent">
+            <div class="tile is-child box">
+                <!-- include NewPOISidebar.svelte-->
+                <NewPOISidebar/>
+            </div>
+        </div>
+    {/if}
+    {#if details }
+        <div class="tile is-4 is-vertical is-parent">
+            <div class="tile is-child box">
 
-    <POIMap/>
+                <DetailsSidebar/>
+            </div>
+        </div>
+    {/if}
 
+    <div class="tile is-parent container container.is-fullhd">
+            <POIMap/>
+
+    </div>
 </div>
 
+
+<script>
+    import NewPOISidebar from './components/NewPOISidebar.svelte';
+    import DetailsSidebar from './components/DetailsSidebar.svelte';
+    import POIMap from "./components/POIMap.svelte";
+    import {loggedin} from "../services/stores.js";
+
+    let stat
+    loggedin.subscribe(value => {
+        stat = value;
+    });
+
+    let sidebar_show = false;
+    let newpoi = false;
+    let details = false;
+</script>

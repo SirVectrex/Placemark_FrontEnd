@@ -1,4 +1,5 @@
 import * as L from "leaflet";
+import {PointOnMap} from "./stores.js"
 
 export class LeafletMap {
     imap = {};
@@ -34,6 +35,7 @@ export class LeafletMap {
         });
 
         this.imap.on('click', function (e) {
+            PointOnMap.set(e.latlng);
             console.log(e.latlng);
         });
     }

@@ -10,6 +10,22 @@ export class PlacemarkService {
         this.baseUrl = baseUrl;
     }
 
+    async create(placemark){
+        try {
+            const userDetails = {
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                password: password,
+            };
+            console.log(userDetails)
+            await axios.post(this.baseUrl + "/api/addUser", userDetails);
+            return true;
+        } catch (error) {
+            return false;
+        }
+    }
+
     async getPois(){
         try {
             // api/getPlacemarks

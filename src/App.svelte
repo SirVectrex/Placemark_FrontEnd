@@ -9,7 +9,6 @@
     import { PlacemarkService } from "./services/placemarkService.js";
     import {setContext} from "svelte";
 
-    // setContext("PlacemarkService", new PlacemarkService("http://localhost:4000"));
     setContext("PlacemarkService", new PlacemarkService("https://wahi-backend.herokuapp.com"));
 
 

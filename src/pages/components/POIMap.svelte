@@ -14,7 +14,7 @@
     let map = null;
 
     onMount(async () => {
-        map = new LeafletMap("donation-map", mapConfig);
+        map = new LeafletMap("map", mapConfig);
         map.showZoomControl();
         map.showLayerControl();
 
@@ -28,5 +28,5 @@
 
 </script>
 
-<div class="box" id="donation-map" style="height:800px">
+<div class="box container is-fullhd" id="map" style="height:800px">
 </div>
