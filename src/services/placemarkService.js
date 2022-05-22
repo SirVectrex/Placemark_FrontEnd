@@ -1,5 +1,6 @@
 import axios from "axios";
-import { loggedin } from "./stores.js"
+import { loggedin, SelectedPOI } from "./stores.js"
+
 
 
 export class PlacemarkService {
@@ -10,16 +11,22 @@ export class PlacemarkService {
         this.baseUrl = baseUrl;
     }
 
-    async create(placemark){
+
+    async create(name, description, category, lng, lat) {
         try {
-            const userDetails = {
-                firstName: firstName,
-                lastName: lastName,
-                email: email,
-                password: password,
+            const placemark = {
+                name : name,
+                description : description,
+                category : category,
+                location : {
+                    type: "Point",
+                    coordinates: [
+                        lng,
+                        lat
+                    ],
+                }
             };
-            console.log(userDetails)
-            await axios.post(this.baseUrl + "/api/addUser", userDetails);
+            await axios.post(this.baseUrl + "/api/addPlacemark", placemark);
             return true;
         } catch (error) {
             return false;
@@ -35,6 +42,18 @@ export class PlacemarkService {
         } catch (error) {
             console.log(error);
         }
+    }
+
+    async getPoi(id){
+        try {
+            const response = await axios.get(this.baseUrl + "/api/getPlacemarkbyID/" + id);
+            return response.data;
+        }
+        catch (error) {
+            console.log(error);
+            return null;
+        }
+
     }
 
     async login(email, password) {
@@ -74,3 +93,4 @@ export class PlacemarkService {
         }
     }
 }
+export  const placemarkService = new PlacemarkService("https://wahi-backend.herokuapp.com");

@@ -13,7 +13,7 @@
     const placemarkservice = getContext("PlacemarkService");
 
     async function create() {
-        let success = await placemarkservice.create()
+        let success = await placemarkservice.create(name, description, category, lat, long);
         if (success) {
             push("/");
         } else {
@@ -22,15 +22,17 @@
     }
     let pos;
     PointOnMap.subscribe(value => {
-        long = value.lng;
-        lat = value.lat;
+        try {
+            long = value.lng;
+            lat = value.lat;
+
+        }
+        catch (e) {
+            //console.log(e);
+        }
+
 
     });
-
-    onDestroy(() => {
-        long, lat = "";
-    });
-
 
 </script>
 
@@ -40,20 +42,16 @@
 </p>
 
 <form on:submit|preventDefault={create}>
-    <div class="field is-horizontal">
-        <div class="field-body">
-            <div class="field">
-                <label for="name" class="label">Name</label>
-                <input bind:value={name} id="name" class="input" type="text" placeholder="Enter POI Name" name="name">
-            </div>
-            <div class="field">
-                <label for="description" class="label">Last Name </label>
-                <input bind:value={description}  id="description" class="input" type="text" placeholder="Enter POI Description" name="description">
-            </div>
-        </div>
+    <div class="field">
+        <label for="name" class="label">Name</label>
+        <input bind:value={name} id="name" class="input" type="text" placeholder="Enter POI Name" name="name">
     </div>
     <div class="field">
-        <label for="category" class="label">Email</label>
+        <label for="description" class="label">Description </label>
+        <input bind:value={description}  id="description" class="input textarea" type="text" placeholder="Enter POI Description" name="description">
+    </div>
+    <div class="field">
+        <label for="category" class="label">Category</label>
         <input bind:value={category} id="category" class="input" type="text" placeholder="Pick category" name="category">
     </div>
     <div class="field is-horizontal">

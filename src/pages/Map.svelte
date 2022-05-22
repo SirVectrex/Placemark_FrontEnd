@@ -14,7 +14,7 @@
             </div>
         </div>
     {/if}
-    {#if details }
+    {#if selectedPOI != null}
         <div class="tile is-4 is-vertical is-parent">
             <div class="tile is-child box">
 
@@ -34,11 +34,16 @@
     import NewPOISidebar from './components/NewPOISidebar.svelte';
     import DetailsSidebar from './components/DetailsSidebar.svelte';
     import POIMap from "./components/POIMap.svelte";
-    import {loggedin} from "../services/stores.js";
+    import {loggedin, SelectedPOI} from "../services/stores.js";
 
     let stat
+    let selectedPOI
     loggedin.subscribe(value => {
         stat = value;
+    });
+
+    SelectedPOI.subscribe(value => {
+        selectedPOI = value;
     });
 
     let sidebar_show = false;

@@ -20,7 +20,8 @@
         "/signup": Signup,
         "/main": Main,
         "/about": About,
-        "/map": Map
+        "/map": Map,
+        "/map/:id": Map
     }
 </script>
 

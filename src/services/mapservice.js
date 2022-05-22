@@ -1,7 +1,11 @@
 import * as L from "leaflet";
-import {PointOnMap} from "./stores.js"
+import {PointOnMap, SelectedPOI} from "./stores.js"
+import {getContext} from "svelte";
+import {placemarkService} from "./placemarkService.js";
+
 
 export class LeafletMap {
+
     imap = {};
     control = {};
     overlays = {};
@@ -38,6 +42,8 @@ export class LeafletMap {
             PointOnMap.set(e.latlng);
             console.log(e.latlng);
         });
+
+
     }
 
 
@@ -73,9 +79,10 @@ export class LeafletMap {
         this.imap.setView(new L.LatLng(location.lat, location.lng), 8);
     }
 
-    addMarker(location, popupText = "", layerTitle = "default") {
+    addMarker(location, id, popupText = "", layerTitle = "default", ) {
         let group = {};
         let marker = L.marker([location.lat, location.lng]);
+        marker.id = id;
         if (popupText) {
             var popup = L.popup({autoClose: false, closeOnClick: false});
             popup.setContent(popupText);
@@ -88,7 +95,22 @@ export class LeafletMap {
         } else {
             group = this.overlays[layerTitle];
         }
+        marker.on('click', this.fireMarkerClick)
+        marker.bindPopup("This is the Transamerica Pyramid").openPopup();
+        marker.on('mouseover', function (e) {
+            this.openPopup();
+        });
+        marker.on('mouseout', function (e) {
+            this.closePopup();
+        });
         marker.addTo(group);
+    }
+
+    fireMarkerClick(e) {
+        console.log(e.target.id);
+        placemarkService.getPoi(e.target.id).then(poi => {
+            SelectedPOI.set(poi);
+        });
     }
 
     invalidateSize() {

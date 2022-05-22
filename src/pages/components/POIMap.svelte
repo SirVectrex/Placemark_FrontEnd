@@ -20,7 +20,7 @@
 
         const pois = await placemarkService.getPois();
         pois.forEach(poi => {
-            map.addMarker({lat: poi.location.coordinates[0], lng: poi.location.coordinates[1]});
+            map.addMarker({lat: poi.location.coordinates[0], lng: poi.location.coordinates[1]}, poi._id);
         });
     })
 
