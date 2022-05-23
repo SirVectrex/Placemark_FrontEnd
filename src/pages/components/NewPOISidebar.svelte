@@ -8,12 +8,16 @@
     let category = ""
     let long = "";
     let lat = "";
+    let img;
+
     let errorMessage;
 
     const placemarkservice = getContext("PlacemarkService");
 
     async function create() {
         let success = await placemarkservice.create(name, description, category, lat, long);
+        let success_two = await placemarkservice
+        console.log(img)
         if (success) {
             push("/");
         } else {
@@ -53,6 +57,20 @@
     <div class="field">
         <label for="category" class="label">Category</label>
         <input bind:value={category} id="category" class="input" type="text" placeholder="Pick category" name="category">
+    </div>
+    <div id="file-select" class="file has-name is-fullwidth">
+        <label class="file-label">
+            <input class="file-input" name="imagefile" type="file"  accept="image/png, image/jpeg" bind:value={img}>
+            <span class="file-cta">
+            <span class="file-icon">
+              <i class="fas fa-upload"></i>
+            </span>
+            <span class="file-label">
+              Choose a file…
+            </span>
+           </span>
+            <span class="file-name"></span>
+        </label>
     </div>
     <div class="field is-horizontal">
         <div class="field-body">

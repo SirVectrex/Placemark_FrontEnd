@@ -33,6 +33,19 @@ export class PlacemarkService {
         }
     }
 
+    async addPhoto(id, image){
+        try {
+            const photo = {
+                id : id,
+                image : image
+            };
+            await axios.post(this.baseUrl + "/api/addPhoto", photo);
+            return true;
+        } catch (error) {
+            return false;
+        }
+    }
+
     async getPois(){
         try {
             // api/getPlacemarks

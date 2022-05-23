@@ -87,6 +87,12 @@ export class LeafletMap {
             var popup = L.popup({autoClose: false, closeOnClick: false});
             popup.setContent(popupText);
             marker.bindPopup(popup);
+            marker.on('mouseover', function (e) {
+                this.openPopup();
+            });
+            marker.on('mouseout', function (e) {
+                this.closePopup();
+            });
         }
         if (!this.overlays[layerTitle]) {
             group = L.layerGroup([]);
@@ -96,13 +102,7 @@ export class LeafletMap {
             group = this.overlays[layerTitle];
         }
         marker.on('click', this.fireMarkerClick)
-        marker.bindPopup("This is the Transamerica Pyramid").openPopup();
-        marker.on('mouseover', function (e) {
-            this.openPopup();
-        });
-        marker.on('mouseout', function (e) {
-            this.closePopup();
-        });
+
         marker.addTo(group);
     }
 
