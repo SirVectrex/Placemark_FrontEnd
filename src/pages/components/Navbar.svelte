@@ -1,14 +1,19 @@
 <script>
 
-    import {getContext} from "svelte";
+    import {getContext, onMount} from "svelte";
     import {push} from "svelte-spa-router";
-    import {loggedin} from "/src/services/stores.js";
+    import {loggedin, isAdmin} from "/src/services/stores.js";
 
     const placemarkservice = getContext("PlacemarkService");
 
     let stat;
     loggedin.subscribe(value => {
         stat = value;
+    });
+
+    let admin;
+    isAdmin.subscribe(value => {
+        admin = value;
     });
 
 
@@ -47,6 +52,12 @@
             <a class="navbar-item" href="/#/about">
                 About Us
             </a>
+            {#if admin}
+            <a class="navbar-item" href="/#/dashboard">
+                Administration
+            </a>
+            {/if}
+
         </div>
 
         <div class="navbar-end">

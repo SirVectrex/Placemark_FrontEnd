@@ -2,6 +2,7 @@
     import { push } from "svelte-spa-router";
     import {getContext, onDestroy} from "svelte";
     import {PointOnMap} from "/src/services/stores.js"
+    import axios from "axios";
 
     let description = "";
     let name = "";
@@ -14,15 +15,19 @@
 
     const placemarkservice = getContext("PlacemarkService");
 
+    const form = document.querySelector("form");
+
+
     async function create() {
+
         let success = await placemarkservice.create(name, description, category, lat, long);
-        let success_two = await placemarkservice
         console.log(img)
         if (success) {
             push("/");
         } else {
             errorMessage = "Error Trying to sign up";
         }
+
     }
     let pos;
     PointOnMap.subscribe(value => {
@@ -45,7 +50,7 @@
     Please enter the needed data below and select a point by clicking on the map.
 </p>
 
-<form on:submit|preventDefault={create}>
+<form id="form" on:submit|preventDefault={create}>
     <div class="field">
         <label for="name" class="label">Name</label>
         <input bind:value={name} id="name" class="input" type="text" placeholder="Enter POI Name" name="name">
@@ -57,20 +62,6 @@
     <div class="field">
         <label for="category" class="label">Category</label>
         <input bind:value={category} id="category" class="input" type="text" placeholder="Pick category" name="category">
-    </div>
-    <div id="file-select" class="file has-name is-fullwidth">
-        <label class="file-label">
-            <input class="file-input" name="imagefile" type="file"  accept="image/png, image/jpeg" bind:value={img}>
-            <span class="file-cta">
-            <span class="file-icon">
-              <i class="fas fa-upload"></i>
-            </span>
-            <span class="file-label">
-              Choose a file…
-            </span>
-           </span>
-            <span class="file-name"></span>
-        </label>
     </div>
     <div class="field is-horizontal">
         <div class="field-body">

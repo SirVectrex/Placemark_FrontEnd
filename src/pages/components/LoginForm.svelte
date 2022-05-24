@@ -11,7 +11,7 @@
     async function login() {
         let success = await placemarkservice.login(email, password)
         if (success) {
-            push("/");
+            push("/map")
         } else {
             email = "";
             password = "";
