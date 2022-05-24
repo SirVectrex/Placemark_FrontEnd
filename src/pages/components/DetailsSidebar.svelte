@@ -3,14 +3,20 @@
 import StarRating from 'svelte-star-rating';
 import {SelectedPOI} from "../../services/stores.js";
 import {getContext} from "svelte";
+import {loggedin, setImage} from "../../services/stores.js";
 const placemarkservice = getContext("PlacemarkService");
+
+let isOpenModal = false;
+function openModal() {
+    setImage.set(true)
+
+}
 
 
 let current;
 SelectedPOI.subscribe(async function (poi) {
     try {
         current = poi;
-        console.log(await placemarkservice.getPoi(poi._id))
     }
     catch (e) {
         //console.error(e);
@@ -19,15 +25,24 @@ SelectedPOI.subscribe(async function (poi) {
 
 });
 
+let stat;
+loggedin.subscribe(value => {
+    stat = value;
+});
+
 function cancel() {
     SelectedPOI.set(null);
 }
 
+function open() {
+    setImage.set(true)
+}
+
 </script>
 <div>
-    <h1 class="title is-2">NOTE: This section is currently being worked on.</h1>
-    <div class="is-divider" data-content="Coming soon"></div>
     <h1 class="title is-3"> Name: {current.name}</h1>
+    <br>
+    <img src={current.img} alt="image"/>
     <br>
     <p class="">Description: {current.description}</p>
     <br>
@@ -36,7 +51,8 @@ function cancel() {
 </div>
 <br>
 
+
 <div class="field is-grouped *b *r">
+    <button class="button is-link" on:click={open}>New Photo</button>
     <button class="button is-link" on:click|once={cancel}>Close</button>
 </div>
-
