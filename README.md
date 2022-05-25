@@ -1,5 +1,5 @@
 # WAHI 
 
-![](src/assets/logo.png)
+![](public/logo.png)
 
 ## Coming soon.
