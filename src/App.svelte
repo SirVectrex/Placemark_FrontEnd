@@ -3,7 +3,7 @@
 
     import Main from "./pages/Main.svelte"
     import Login from "./pages/Login.svelte"
-    import Signup from "./pages/Signup.svelte"
+    import Signup from "./pages/SignUp.svelte"
     import Router from "svelte-spa-router";
     import Navbar from "./pages/components/Navbar.svelte";
     import About from "./pages/About.svelte";
