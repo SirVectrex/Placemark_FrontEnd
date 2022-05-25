@@ -13,7 +13,8 @@
 
 <div id="first" class="columns  section is-vcentered">
     <div class="column ">
-        <img id="map" alt="homer" src="./src/assets/coolmap.png" width="450">
+        <!-- get img from assets-->
+        <img id="map" alt="homer" src="/public/coolmap.png" width="450">
     </div>
     <div class="column">
         <div class="container has-text-centered">
