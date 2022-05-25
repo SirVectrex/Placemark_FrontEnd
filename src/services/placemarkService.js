@@ -99,11 +99,30 @@ export class PlacemarkService {
 
     }
 
+    async giveRating(id, rating){
+        try {
+            const response = await axios.post(this.baseUrl + "/api/addRating", {id, rating});
+            return response.data;
+        } catch (error) {
+            return false;
+        }
+    }
+
+    async giveComment(id, comment, username){
+        try {
+            const response = await axios.post(this.baseUrl + "/api/giveComment", {id, comment, username});
+            return response.data;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    }
+
     async login(email, password) {
         try {
             const response = await axios.post(`${this.baseUrl}/api/users/authenticate`, {email, password});
             axios.defaults.headers.common["Authorization"] = "Bearer " + response.data.token;
-
+console.log(response)
             if (response.data.success) {
                 loggedin.set(true);
                 if (response.data.role === "admin") {
