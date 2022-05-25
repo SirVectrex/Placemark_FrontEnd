@@ -22,13 +22,7 @@
         <h1 class=" title is-4 has-text-centered">
             Stop the search.
         </h1>
-        <p class="is-primary">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptas, modi fugit in veritatis labore perferendis. Minima hic at, nostrum nihil!
 
-            incididunt ut labore et dolore magna. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptas, modi fugit in veritatis labore perferendis. Minima hic at, nostrum nihil!
-
-        </p>
     </div>
 </div>
 
@@ -39,13 +33,18 @@
             Feature Rich!
         </h1>
         <p class="is-primary">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptas, modi fugit in veritatis labore perferendis. Minima hic at, nostrum nihil!
+            All about automotive Photography? So are we.
+            <br>
+            Most important about taking photos of an object is the location and light you position it in. Whilst
+            we can't help with changing the weather, we can surely help you to find a great spot!
+            <br>
+            <br>
+            Curated by the photographer <a href="https://newtonmaniac.com">NewtonManiac</a>
         </p>
     </div>
     <div class="column">
         <div class="container has-text-centered">
-            <img class="inline-block" id="code" alt="Logo" src="./src/assets/coder_image.png" width="80%">
+            <img class="inline-block" id="code" alt="Logo" src="./src/assets/ferrari.jpg" width="80%">
         </div>
     </div>
 </div>
@@ -57,8 +56,20 @@
                 Sign up today!
             </h1>
             <br>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-            incid
+            Whilst our location database is free to explore for all users, we offer registered users the ability to:
+            <div class="content">
+            <ul>
+                <li>
+                    Upload photos
+                </li>
+                <li>
+                    Share new spots
+                </li>
+                <li>
+                    Review locations
+                </li>
+            </ul>
+            </div>
         </div>
         <div class="column">
             <SignUpForm />
