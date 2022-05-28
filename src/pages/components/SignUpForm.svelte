@@ -7,6 +7,7 @@
     let email = ""
     let password = "";
     let errorMessage = "";
+    let successMessage = "";
 
     const placemarkservice = getContext("PlacemarkService");
 
@@ -15,7 +16,7 @@
         if (success) {
             push("/login");
         } else {
-            errorMessage = "Error Trying to sign up";
+            errorMessage = "Signup failed";
         }
     }
 </script>

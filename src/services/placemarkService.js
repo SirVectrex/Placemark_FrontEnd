@@ -1,5 +1,6 @@
 import axios from "axios";
-import { loggedin, SelectedPOI , isAdmin} from "./stores.js"
+import { loggedin, SelectedPOI , isAdmin, currentUserName} from "./stores.js"
+import {src_url_equal} from "svelte/internal";
 
 
 
@@ -89,11 +90,30 @@ export class PlacemarkService {
 
     async getPoi(id){
         try {
-            const response = await axios.get(this.baseUrl + "/api/getPlacemarkbyID/" + id);
+            console.log(this.baseUrl)
+            const response = await axios.post(this.baseUrl + "/api/getPlacemarkbyID/" + id);
+            console.log(response)
             return response.data;
         }
         catch (error) {
             console.log(error);
+            return null;
+        }
+
+    }
+
+    async addImage(id, formdata){
+        try {
+            let success = await axios.post(this.baseUrl + "/api/uploadimage/" + id , formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            console.log(success)
+            return true;
+
+        } catch (error) {
+            console.log(error)
             return null;
         }
 
@@ -125,6 +145,10 @@ export class PlacemarkService {
 console.log(response)
             if (response.data.success) {
                 loggedin.set(true);
+                console.log("LOGGED IN!")
+                console.log(response.data)
+                currentUserName.set(response.data.username);
+
                 if (response.data.role === "admin") {
                     isAdmin.set(true);
                 }
@@ -143,6 +167,7 @@ console.log(response)
         axios.defaults.headers.common["Authorization"] = "";
         loggedin.set(false);
         isAdmin.set(false);
+        currentUserName.set(null);
         console.log("LOGGED OUT!")
     }
 
@@ -154,8 +179,8 @@ console.log(response)
                 email: email,
                 password: password,
             };
-            console.log(userDetails)
             await axios.post(this.baseUrl + "/api/addUser", userDetails);
+            // console.log("User created!");
             return true;
         } catch (error) {
             return false;
