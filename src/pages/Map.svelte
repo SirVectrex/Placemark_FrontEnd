@@ -13,6 +13,13 @@
 
 </div>
     {/if}
+{#if !stat}
+<div class="navbar box">
+    <p>
+    Please login to create a new POI or review an existing POI.
+    </p>
+</div>
+    {/if}
 <div class="tile is-ancestor">
     {#if newpoi }
         <div class="tile is-4 is-vertical is-parent">

@@ -1,6 +1,6 @@
 <script>
 
-    import {SelectedPOI, showReviews} from "../../services/stores.js";
+    import {SelectedPOI, showReviews, currentUserName} from "../../services/stores.js";
 
     import {getContext, onMount} from "svelte";
     import {push} from "svelte-spa-router";
@@ -20,11 +20,26 @@
 
     $: stars = 3
     let ratingerror = null
+
+    async function updatePOI(){
+        // get newest data from server
+        let poi = await placemarkservice.getPoi(current._id)   // getPOI(current.id);
+        // update store
+        SelectedPOI.set(poi);
+
+    }
+
+    let loggedInUser = "";
+    currentUserName.subscribe(function (user) {
+        loggedInUser = user;
+    });
+
     async function giveStars(){
         let success = await placemarkservice.giveRating(current._id, stars);
             if (success) {
                 console.log(success)
                 ratingerror = "Thank you for your feedback!"
+                updatePOI()
             } else {
                 ratingerror = "Something went wrong, please try again later."
                 console.log("error")
@@ -35,10 +50,11 @@
     let comment
     let commenterror = null
     async function giveComment() {
-        let success = await placemarkservice.giveComment(current._id, username, comment);
+        let success = await placemarkservice.giveComment(current._id, loggedInUser, comment);
         if (success) {
             console.log(success)
             commenterror = "Thank you for your feedback!"
+            updatePOI()
         } else {
             console.log(success)
             commenterror = "Something went wrong, please try again later."
@@ -85,8 +101,9 @@
         <br>
 
         <form  id="commentform" on:submit|preventDefault={giveComment}>
-            <input class="input" bind:value={username} type="text" placeholder="Username">
-            <br>
+            <p>
+                Username: {loggedInUser}
+            </p>
             <input class="input textarea" bind:value={comment} type="textarea" placeholder="Comment">
             <br>
             <button type="submit" class="button is-info">Create</button>

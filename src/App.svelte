@@ -8,7 +8,6 @@
     import Navbar from "./pages/components/Navbar.svelte";
     import About from "./pages/About.svelte";
     import Map from "./pages/Map.svelte";
-    import Dashboard from "./pages/Dashboard.svelte";
     import { PlacemarkService } from "./services/placemarkService.js";
     import {setContext} from "svelte";
     import {wrap} from 'svelte-spa-router/wrap'
@@ -22,6 +21,7 @@
     // for dev only
     // setContext("PlacemarkService", new PlacemarkService("http://localhost:4000"));
 
+    // for deployed use
     setContext("PlacemarkService", new PlacemarkService("https://wahi-backend.herokuapp.com"));
 
 
