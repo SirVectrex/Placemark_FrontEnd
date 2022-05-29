@@ -109,7 +109,7 @@ export class PlacemarkService {
                     'Content-Type': 'multipart/form-data'
                 }
             })
-            console.log(success)
+            console.log("IT WORKED")
             return true;
 
         } catch (error) {

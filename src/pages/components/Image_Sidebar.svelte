@@ -2,10 +2,14 @@
 
     import {SelectedPOI, setImage} from "../../services/stores.js";
     import {getContext, onMount} from "svelte";
+    import Message from "./Message.svelte";
     import axios from "axios";
     const placemarkservice = getContext("PlacemarkService");
 
     let url;
+    $: loading = false;
+    $: error = false;
+    $: currentstate = null;
 
     onMount(async () => {
         url = await placemarkservice.getbaseUrl()
@@ -23,13 +27,34 @@
 
     let files;
     async function uploadImage(){
-        var formData = new FormData();
-        var imagefile = document.querySelector('#imagefile');
-        console.log(files)
-        formData.append("image", files[0]);
-        console.log(formData)
-        let success = await placemarkservice.addImage(current._id, formData)
-        console.log(success)
+        try {
+            currentstate = {
+                message: "Currently uploading image...",
+                klass: "is-warning is-light",
+                type: "loading",
+                show: true
+            }
+            var formData = new FormData();
+            var imagefile = document.querySelector('#imagefile');
+            console.log(files)
+            formData.append("image", files[0]);
+            console.log(formData)
+            let success = await placemarkservice.addImage(current._id, formData)
+            console.log(success)
+            currentstate = {
+                message: "Image uploaded",
+                klass: "is-success is-light",
+                type: "success",
+                show: true
+            }
+        } catch (error) {
+            currentstate = {
+                message: "Error uploading image",
+                klass: "is-danger is-light",
+                type: "error",
+                show: true
+            }
+        }
     }
 
     let current;
@@ -71,10 +96,15 @@
                 <button type="submit" class="button is-info" on:click|once={uploadImage} >Upload</button>
             </div>
         </form>
+        {#if currentstate != null}
+            <Message message={currentstate.message} klass={currentstate.klass} type={currentstate.type}/>
+        {/if}
+
         <div class="field is-grouped *b *r">
             <button class="button is-link" on:click|once={cancel}>Close</button>
         </div>
     </div>
+
 {/if}
 
 
