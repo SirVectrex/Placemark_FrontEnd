@@ -91,7 +91,7 @@ export class PlacemarkService {
     async getPoi(id){
         try {
             console.log(this.baseUrl)
-            const response = await axios.post(this.baseUrl + "/api/getPlacemarkbyID/" + id);
+            const response = await axios.get(this.baseUrl + "/api/getPlacemarkbyID/" + id);
             console.log(response)
             return response.data;
         }
@@ -104,7 +104,7 @@ export class PlacemarkService {
 
     async addImage(id, formdata){
         try {
-            let success = await axios.post(this.baseUrl + "/api/uploadimage/" + id , formData, {
+            let success = await axios.post(this.baseUrl + "/api/uploadimage/" + id , formdata, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
