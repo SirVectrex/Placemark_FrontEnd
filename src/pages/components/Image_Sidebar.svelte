@@ -10,12 +10,12 @@
     $: loading = false;
     $: error = false;
     $: currentstate = null;
+    $: filename =""
 
     onMount(async () => {
         url = await placemarkservice.getbaseUrl()
         console.log(url)
     });
-
 
     async function updatePOI(){
         // get newest data from server
@@ -41,6 +41,7 @@
             console.log(formData)
             let success = await placemarkservice.addImage(current._id, formData)
             console.log(success)
+            await updatePOI()
             currentstate = {
                 message: "Image uploaded",
                 klass: "is-success is-light",
@@ -73,16 +74,24 @@
         setImage.set(null);
     }
 
+    function updateFilename(){
+        // wait for 1s
+        setTimeout(() => {
+            console.log(files);
+            filename = files[0].name;
+        }, 100);
+
+
+
+    }
+
 </script>
 {#if current!=null}
-    <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
     <div class="card-content">
-        <!-- <form action="{url}/api/uploadimage/{current._id}" method="POST" enctype="multipart/form-data"> -->
         <form on:submit|preventDefault>
-            <!-- <form action="{url}/api/uploadimage/{current._id}" method="POST" enctype="multipart/form-data" target="dummyframe"> -->
             <div id="file-select" class="file has-name is-fullwidth">
                 <label class="file-label">
-                    <input class="file-input" name="imagefile" bind:files id="imagefile" type="file" accept="image/png, image/jpeg">
+                    <input class="file-input" on:change={updateFilename} name="imagefile" bind:files id="imagefile" type="file" accept="image/png, image/jpeg">
                     <span class="file-cta">
                  <span class="file-icon">
                    <i class="fas fa-upload"></i>
@@ -91,10 +100,12 @@
                    Choose a file…
                  </span>
                 </span>
-                    <span class="file-name"></span>
                 </label>
-                <button type="submit" class="button is-info" on:click|once={uploadImage} >Upload</button>
+                <br>
+                <button type="submit" class="button is-info" on:click={uploadImage} >Upload</button>
+
             </div>
+            <span class="file-name">{filename}</span>
         </form>
         {#if currentstate != null}
             <Message message={currentstate.message} klass={currentstate.klass} type={currentstate.type}/>

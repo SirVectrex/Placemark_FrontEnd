@@ -9,7 +9,7 @@
 
 <div class="notification {klass}">
     {message}
-    {#if type="loading"}
+    {#if type=="loading"}
         <progress class="progress is-small is-dark" max="100">45%</progress>
     {/if}
 

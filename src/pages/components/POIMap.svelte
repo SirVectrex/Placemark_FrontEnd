@@ -27,5 +27,5 @@
 
 </script>
 
-<div class="box container is-fullhd" id="map" style="height:800px">
+<div class="box container is-fullhd" id="map" style="height: 100%">
 </div>
