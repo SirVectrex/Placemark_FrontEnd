@@ -104,12 +104,21 @@ export class PlacemarkService {
 
     async addImage(id, formdata){
         try {
+
+            let test = await axios.post(this.baseUrl + "/api/addImage/" + id , formdata, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            /*
+             old version for one photo only
             let success = await axios.post(this.baseUrl + "/api/uploadimage/" + id , formdata, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             })
-            console.log("IT WORKED")
+
+             */
             return true;
 
         } catch (error) {

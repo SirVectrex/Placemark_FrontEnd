@@ -54,7 +54,7 @@ const style = 'display: inline-flex';
     <h1 class="is-inline title is-3">{current.name}</h1> <button class="is-inline is-pulled-right" on:click|once={cancel}><i class="fa fa-times" aria-hidden="true" style="font-size:36px;"></i></button>
     </div>
     <br>
-    {#if current.img !== undefined}
+    {#if current.photos !== undefined}
     <ImageCarousel />
     <br>
     {:else}

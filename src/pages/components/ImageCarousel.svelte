@@ -20,14 +20,9 @@
 
     SelectedPOI.subscribe(poi => {
         try {
-            images = poi.img;
-            if (typeof images === "string") {
-                currentImage = images;
-
-            }
-            else    {
-                currentImage = images[0];
-            }
+            images = poi.photos;
+            console.log(images)
+            currentImage = images[0];
         } catch (e) {
             console.log(e);
         }
