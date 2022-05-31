@@ -6,13 +6,14 @@
     let lastName = "";
     let email = ""
     let password = "";
+    let username = "";
     let errorMessage = "";
     let successMessage = "";
 
     const placemarkservice = getContext("PlacemarkService");
 
     async function signup() {
-        let success = await placemarkservice.signup(firstName, lastName, email, password)
+        let success = await placemarkservice.signup(firstName, lastName, username, email, password)
         if (success) {
             push("/login");
         } else {
@@ -33,6 +34,10 @@
                 <input bind:value={lastName}  id="lastname" class="input" type="text" placeholder="Enter last name" name="lastName">
             </div>
         </div>
+    </div>
+    <div class="field">
+        <label for="username" class="label">Username</label>
+        <input bind:value={username} id="username" class="input" type="text" placeholder="Enter username" name="username">
     </div>
     <div class="field">
         <label for="email" class="label">Email</label>

@@ -180,11 +180,12 @@ console.log(response)
         console.log("LOGGED OUT!")
     }
 
-    async signup(firstName, lastName, email, password) {
+    async signup(firstName, lastName, username, email, password) {
         try {
             const userDetails = {
                 firstName: firstName,
                 lastName: lastName,
+                username: username,
                 email: email,
                 password: password,
             };
