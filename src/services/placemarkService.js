@@ -68,6 +68,16 @@ export class PlacemarkService {
         }
     }
 
+    async promoteUser(id) {
+        try {
+            const response = axios.post(this.baseUrl + "/api/promoteToAdmin/" + id);
+            // console.log(response)
+        }
+        catch (error) {
+            return false;
+        }
+    }
+
     async getAllUsers(){
         try {
             const response = await axios.get(this.baseUrl + "/api/getUsers");

@@ -11,6 +11,7 @@
 
     async function clickevent(id){
         await placemarkservice.deletePOI(id)
+        placemarks = await placemarkservice.getPois();
     }
 
 </script>
