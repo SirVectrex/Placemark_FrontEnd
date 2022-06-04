@@ -2,7 +2,18 @@
     import { push } from "svelte-spa-router";
     import {getContext, onDestroy} from "svelte";
     import {PointOnMap} from "/src/services/stores.js"
+    import Select from 'svelte-select';
     import axios from "axios";
+
+    let items = [
+        {value: 'public', label: 'Public'},
+        {value: 'nonpublic', label: 'Non Public'},
+        {value: 'rollingshot', label: 'Rollingshot'},
+
+    ];
+
+    let value = {value: 'public', label: 'Public'};
+
 
     let description = "";
     let name = "";
@@ -20,8 +31,7 @@
 
     async function create() {
 
-        let success = await placemarkservice.create(name, description, category, lat, long);
-        console.log(img)
+        let success = await placemarkservice.create(name, description, value.label, lat, long);
         if (success) {
             push("/");
         } else {
@@ -60,8 +70,9 @@
         <input bind:value={description}  id="description" class="input textarea" type="text" placeholder="Enter POI Description" name="description">
     </div>
     <div class="field">
-        <label for="category" class="label">Category</label>
-        <input bind:value={category} id="category" class="input" type="text" placeholder="Pick category" name="category">
+        <label id="category"  for="category" class="label">Category</label>
+        <Select {items} {value}></Select>
+        <!-- <input bind:value={category} id="category" class="input" type="text" placeholder="Pick category" name="category"> -->
     </div>
     <div class="field is-horizontal">
         <div class="field-body">

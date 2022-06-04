@@ -54,15 +54,18 @@ const style = 'display: inline-flex';
     <h1 class="is-inline title is-3">{current.name}</h1> <button class="is-inline is-pulled-right" on:click|once={cancel}><i class="fa fa-times" aria-hidden="true" style="font-size:36px;"></i></button>
     </div>
     <br>
-    {#if current.photos !== undefined}
-    <ImageCarousel />
-    <br>
+    {#if current.photos !== undefined && current.photos.length > 0}
+        <ImageCarousel />
+        <br>
     {:else}
         <p>No image uploaded yet.</p>
         <br>
     {/if}
+    <p class="">Category: {current.category}</p>
+    <br>
     <p class="">Description: {current.description}</p>
     <br>
+
     {#if current.stats !== undefined}
     <div class="container is-inline">
          <StarRating rating={current.stats.avgRating} {style}/> ({current.stats.numRatings})
