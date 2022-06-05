@@ -2,6 +2,7 @@
 
     import Placemarktable from "./components/Placemarktable.svelte";
     import Usertable from "./components/Usertable.svelte";
+    import Analytics from "./components/Analytics-charts.svelte";
     import {push} from "svelte-spa-router";
     import {onMount} from "svelte";
     import {isAdmin} from "../services/stores.js";
@@ -21,17 +22,7 @@
 
 </script>
 
-<div class="columns">
-    <div class="column">
-        First column: Chart to follow
-    </div>
-    <div class="column">
-        Second column: Chart to follow
-    </div>
-    <div class="column">
-        Third column: Chart to follow
-    </div>
-</div>
+<Analytics/>
 <Placemarktable/>
 <Usertable/>
 

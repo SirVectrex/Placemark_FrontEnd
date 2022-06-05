@@ -7,7 +7,23 @@
     let users = [];
     onMount(async () => {
         users = await placemarkservice.getAllUsers();
+        // console.log(users)
     });
+
+    async function promoteUser(user) {
+        const res = await placemarkservice.promoteUser(user);
+        // sleep for 1000ms to wait for server change
+        await new Promise(resolve => setTimeout(resolve, 100));
+        users = await placemarkservice.getAllUsers();
+        // console.log(users)
+    }
+
+    async function deleteUser(id){
+        await placemarkservice.deleteUser(id);
+        // sleep for 1000ms to wait for server change
+        await new Promise(resolve => setTimeout(resolve, 100));
+        users = await placemarkservice.getAllUsers();
+    }
 
 </script>
 
@@ -32,9 +48,16 @@
                 <td>{user.firstName}</td>
                 <td>{user.lastName}</td>
                 <td>{user.email}</td>
-                <td>{user.role}</td>
+                {#if user.role != "admin"}
+                    <td>
+                        <button class="button is-small is-primary" on:click={promoteUser(user._id)}>Promote</button>
+                    </td>
+                {:else}
+                    <td>{user.role}</td>
+                {/if}
+
                 <td>
-                    <button class="button is-small is-danger" onclick="placemarkservice.deleteUser(user._id)">Delete</button>
+                    <button class="button is-small is-danger" on:click={deleteUser(user._id)}>Delete</button>
                 </td>
             </tr>
         {/each}

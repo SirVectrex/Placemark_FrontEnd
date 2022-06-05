@@ -2,6 +2,7 @@
 
 import StarRating from 'svelte-star-rating';
 import {SelectedPOI} from "../../services/stores.js";
+import ImageCarousel from "./ImageCarousel.svelte";
 import ReviewSidebar from "./ReviewSidebar.svelte";
 import {getContext} from "svelte";
 import {loggedin,showReviews , setImage} from "../../services/stores.js";
@@ -22,7 +23,7 @@ SelectedPOI.subscribe(async function (poi) {
     catch (e) {
         //console.error(e);
     }
-    //console.log(poi)
+    console.log(poi)
 
 });
 
@@ -53,10 +54,18 @@ const style = 'display: inline-flex';
     <h1 class="is-inline title is-3">{current.name}</h1> <button class="is-inline is-pulled-right" on:click|once={cancel}><i class="fa fa-times" aria-hidden="true" style="font-size:36px;"></i></button>
     </div>
     <br>
-    <img src={current.img} alt="image"/>
+    {#if current.photos !== undefined && current.photos.length > 0}
+        <ImageCarousel />
+        <br>
+    {:else}
+        <p>No image uploaded yet.</p>
+        <br>
+    {/if}
+    <p class="">Category: {current.category}</p>
     <br>
     <p class="">Description: {current.description}</p>
     <br>
+
     {#if current.stats !== undefined}
     <div class="container is-inline">
          <StarRating rating={current.stats.avgRating} {style}/> ({current.stats.numRatings})
@@ -73,11 +82,6 @@ const style = 'display: inline-flex';
     {/if}
 </div>
 <br>
-
-<div class="modal">
-    test
-</div>
-
 
 <div class="field is-grouped *b *r">
     <!-- {#if stat}

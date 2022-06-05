@@ -20,7 +20,8 @@
     </p>
 </div>
     {/if}
-<div class="tile is-ancestor">
+
+<div class="tile is-ancestor" style="height: 83vh">
     {#if newpoi }
         <div class="tile is-4 is-vertical is-parent">
             <div class="tile is-child box">
@@ -30,7 +31,7 @@
         </div>
     {/if}
     {#if selectedPOI != null}
-        <div class="tile is-4 is-vertical is-parent">
+        <div class="tile is-4 is-vertical is-parent scrollthing"  >
             <div class="tile is-child box">
 
                 <DetailsSidebar/>
@@ -51,9 +52,6 @@
             </div>
         </div>
     {/if}
-
-
-
 
     <div class="tile is-parent container container.is-fullhd">
             <POIMap/>
@@ -112,3 +110,21 @@
     let newpoi = false;
     let details = false;
 </script>
+
+<style>
+    .scrollthing {
+
+        overflow-y: scroll; /* Add the ability to scroll */
+    }
+
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .scrollthing::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .scrollthing {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+</style>

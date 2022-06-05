@@ -7,6 +7,8 @@ import {src_url_equal} from "svelte/internal";
 export class PlacemarkService {
     baseUrl = "";
     loggedIn = false;
+    username = "";
+
 
     constructor(baseUrl) {
         this.baseUrl = baseUrl;
@@ -28,7 +30,8 @@ export class PlacemarkService {
                         lng,
                         lat
                     ],
-                }
+                },
+                creationuser: this.username
             };
             await axios.post(this.baseUrl + "/api/addPlacemark", placemark);
             return true;
@@ -68,6 +71,16 @@ export class PlacemarkService {
         }
     }
 
+    async promoteUser(id) {
+        try {
+            const response = axios.post(this.baseUrl + "/api/promoteToAdmin/" + id);
+            // console.log(response)
+        }
+        catch (error) {
+            return false;
+        }
+    }
+
     async getAllUsers(){
         try {
             const response = await axios.get(this.baseUrl + "/api/getUsers");
@@ -102,14 +115,32 @@ export class PlacemarkService {
 
     }
 
+    async getCategoryStats(){
+        try {
+            const response = await axios.get(this.baseUrl + "/api/getPlacemarkStats");
+            return response.data;
+        } catch (error) {
+            return null;
+        }
+    }
+
     async addImage(id, formdata){
         try {
+
+            let test = await axios.post(this.baseUrl + "/api/addImage/" + id , formdata, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            /*
+             old version for one photo only
             let success = await axios.post(this.baseUrl + "/api/uploadimage/" + id , formdata, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             })
-            console.log(success)
+
+             */
             return true;
 
         } catch (error) {
@@ -145,6 +176,7 @@ export class PlacemarkService {
 console.log(response)
             if (response.data.success) {
                 loggedin.set(true);
+                this.username = response.data.username;
                 console.log("LOGGED IN!")
                 console.log(response.data)
                 currentUserName.set(response.data.username);
@@ -171,11 +203,12 @@ console.log(response)
         console.log("LOGGED OUT!")
     }
 
-    async signup(firstName, lastName, email, password) {
+    async signup(firstName, lastName, username, email, password) {
         try {
             const userDetails = {
                 firstName: firstName,
                 lastName: lastName,
+                username: username,
                 email: email,
                 password: password,
             };

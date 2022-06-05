@@ -68,7 +68,7 @@
 
 </script>
 {#if current!=null}
-<div class="container">
+<div class="container" style="height: 100%">
     <div>
         <h1 class="is-inline title is-5">Leave your opinion!</h1> <button class="is-inline is-pulled-right" on:click|once={cancel}><i class="fa fa-times" aria-hidden="true" style="font-size:30px;"></i></button>
     </div>
