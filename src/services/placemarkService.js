@@ -7,6 +7,8 @@ import {src_url_equal} from "svelte/internal";
 export class PlacemarkService {
     baseUrl = "";
     loggedIn = false;
+    username = "";
+
 
     constructor(baseUrl) {
         this.baseUrl = baseUrl;
@@ -28,7 +30,8 @@ export class PlacemarkService {
                         lng,
                         lat
                     ],
-                }
+                },
+                creationuser: this.username
             };
             await axios.post(this.baseUrl + "/api/addPlacemark", placemark);
             return true;
@@ -112,6 +115,15 @@ export class PlacemarkService {
 
     }
 
+    async getCategoryStats(){
+        try {
+            const response = await axios.get(this.baseUrl + "/api/getPlacemarkStats");
+            return response.data;
+        } catch (error) {
+            return null;
+        }
+    }
+
     async addImage(id, formdata){
         try {
 
@@ -164,6 +176,7 @@ export class PlacemarkService {
 console.log(response)
             if (response.data.success) {
                 loggedin.set(true);
+                this.username = response.data.username;
                 console.log("LOGGED IN!")
                 console.log(response.data)
                 currentUserName.set(response.data.username);

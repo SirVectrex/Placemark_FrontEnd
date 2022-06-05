@@ -7,7 +7,7 @@
     let users = [];
     onMount(async () => {
         users = await placemarkservice.getAllUsers();
-        console.log(users)
+        // console.log(users)
     });
 
     async function promoteUser(user) {
@@ -15,7 +15,7 @@
         // sleep for 1000ms to wait for server change
         await new Promise(resolve => setTimeout(resolve, 100));
         users = await placemarkservice.getAllUsers();
-        console.log(users)
+        // console.log(users)
     }
 
     async function deleteUser(id){
