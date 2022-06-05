@@ -94,7 +94,7 @@ export class PlacemarkService {
         try {
             // api/getPlacemarks
             const response = await axios.get(this.baseUrl + "/api/getPlacemarks");
-            console.log(response.data);
+            // console.log(response.data);
             return response.data;
         } catch (error) {
             console.log(error);
@@ -105,7 +105,7 @@ export class PlacemarkService {
         try {
             console.log(this.baseUrl)
             const response = await axios.get(this.baseUrl + "/api/getPlacemarkbyID/" + id);
-            console.log(response)
+            // console.log(response)
             return response.data;
         }
         catch (error) {
@@ -114,6 +114,16 @@ export class PlacemarkService {
         }
 
     }
+
+    async getUserStats(){
+        try {
+            const response = await axios.get(this.baseUrl + "/api/getPlacemarkUserStats");
+            return response.data;
+        } catch (error) {
+            return null;
+        }
+    }
+
 
     async getCategoryStats(){
         try {

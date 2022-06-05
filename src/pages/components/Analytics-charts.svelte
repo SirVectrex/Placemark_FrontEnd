@@ -4,25 +4,29 @@
     import {getContext, onDestroy, onMount} from "svelte";
     const placemarkservice = getContext("PlacemarkService");
 
-/*
-received data = "categoryAmount": [
-    {
-      "_id": "Garage",
-      "count": 1
-    },
-    {
-      "_id": "Night, Day",
-      "count": 1
-    },
-    {
-      "_id": "Public",
-      "count": 2
-    },
-
-
- */
-
     onMount(async () => {
+        load_category_data();
+        load_user_data();
+    });
+
+    async function load_user_data() {
+        user_data = {
+            labels: [],
+            datasets: [
+                {
+                    values: []
+                }
+            ]
+        };
+        const userdata = await placemarkservice.getUserStats();
+        userdata.forEach(placemark => {
+            user_data.labels.push(placemark._id)
+            user_data.datasets[0].values.push(placemark.count);
+        })
+        console.log(user_data);
+    }
+
+    async function load_category_data() {
         const rawdata = await placemarkservice.getCategoryStats();
         // console.log(rawdata.categoryAmount);
         // map received data to category_data
@@ -38,13 +42,9 @@ received data = "categoryAmount": [
             category_data.labels.push(category._id)
             category_data.datasets[0].values.push(category.count);
         })
-        // console.log(category_data);
+    }
 
-
-
-    });
-
-    let category_data;
+    let category_data, user_data;
 
 
 
@@ -55,7 +55,7 @@ received data = "categoryAmount": [
         <Chart data={category_data} type="pie" />
     </div>
     <div class="column">
-        Second column: Chart to follow
+        <Chart data={user_data} type="pie" />
     </div>
     <div class="column">
         Third column: Chart to follow
