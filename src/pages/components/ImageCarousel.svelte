@@ -1,6 +1,5 @@
 <script>
 
-    import {onMount} from "svelte";
     import {SelectedPOI} from "../../services/stores.js";
 
 
@@ -9,7 +8,7 @@
     let counter = 0;
 
     function next(){
-        console.log("next");
+        // console.log("next");
         if (counter < images.length - 1) {
             counter++;
         } else {
@@ -21,7 +20,7 @@
     SelectedPOI.subscribe(poi => {
         try {
             images = poi.photos;
-            console.log(images)
+            // console.log(images)
             currentImage = images[0];
         } catch (e) {
             console.log(e);
@@ -31,7 +30,7 @@
     });
 
     function before(){
-        console.log("before");
+        // console.log("before");
         if (counter > 0) {
             counter--;
         } else {

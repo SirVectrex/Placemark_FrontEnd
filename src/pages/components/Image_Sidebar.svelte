@@ -3,7 +3,6 @@
     import {SelectedPOI, setImage} from "../../services/stores.js";
     import {getContext, onMount} from "svelte";
     import Message from "./Message.svelte";
-    import axios from "axios";
     const placemarkservice = getContext("PlacemarkService");
 
     let url;
@@ -35,7 +34,6 @@
                 show: true
             }
             var formData = new FormData();
-            var imagefile = document.querySelector('#imagefile');
             console.log(files)
             formData.append("image", files[0]);
             console.log(formData)
@@ -88,32 +86,38 @@
 </script>
 {#if current!=null}
     <div class="card-content">
-        <form on:submit|preventDefault>
-            <div id="file-select" class="file has-name is-fullwidth">
-                <label class="file-label">
-                    <input class="file-input" on:change={updateFilename} name="imagefile" bind:files id="imagefile" type="file" accept="image/png, image/jpeg">
-                    <span class="file-cta">
-                 <span class="file-icon">
-                   <i class="fas fa-upload"></i>
-                 </span>
-                 <span class="file-label">
-                   Choose a file…
-                 </span>
-                </span>
-                </label>
+        <div class="">
+        <div class="title is-5"> Upload a new image! <button class="is-inline is-pulled-right" on:click|once={cancel}><i class="fa fa-times" aria-hidden="true" style="font-size:30px;"></i></button>
+        </div>
+            <br>
+            <div class="">
+            <form on:submit|preventDefault>
+                <div id="file-select" class="file has-name is-fullwidth">
+                    <label class="file-label ">
+                            <input class="file-input" on:change={updateFilename} name="imagefile" bind:files id="imagefile" type="file" accept="image/png, image/jpeg">
+                            <span class="file-cta ">
+                         <span class="file-icon">
+                           <i class="fas fa-upload "></i>
+                         </span>
+                         <span class="file-label">
+                           Choose a file…
+                         </span>
+                        </span>
+                    </label>
+                    <button type="submit" class="button is-info" on:click={uploadImage} >Upload</button>
+                </div>
+                </form>
                 <br>
-                <button type="submit" class="button is-info" on:click={uploadImage} >Upload</button>
+                <span class="">You have selected: <br> {filename}</span>
 
             </div>
-            <span class="file-name">{filename}</span>
-        </form>
+        </div>
+
         {#if currentstate != null}
             <Message message={currentstate.message} klass={currentstate.klass} type={currentstate.type}/>
         {/if}
+        <br>
 
-        <div class="field is-grouped *b *r">
-            <button class="button is-link" on:click|once={cancel}>Close</button>
-        </div>
     </div>
 
 {/if}

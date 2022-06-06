@@ -1,9 +1,8 @@
 <script>
     import { push } from "svelte-spa-router";
-    import {getContext, onDestroy} from "svelte";
-    import {PointOnMap} from "/src/services/stores.js"
+    import {getContext} from "svelte";
+    import {PointOnMap,  newPOI} from "/src/services/stores.js"
     import Select from 'svelte-select';
-    import axios from "axios";
 
     let items = [
         {value: 'public', label: 'Public'},
@@ -17,7 +16,6 @@
 
     let description = "";
     let name = "";
-    let category = ""
     let long = "";
     let lat = "";
     let img;
@@ -25,13 +23,21 @@
     let errorMessage;
 
     const placemarkservice = getContext("PlacemarkService");
+    let category = undefined;
+
+    function handleSelect(event) {
+        category = event.detail;
+
+    }
 
     const form = document.querySelector("form");
 
+    function cancel() {
+        newPOI.set(false)
+    }
 
     async function create() {
-
-        let success = await placemarkservice.create(name, description, value.label, lat, long);
+        let success = await placemarkservice.create(name, description, category.label, lat, long);
         if (success) {
             push("/");
         } else {
@@ -49,13 +55,13 @@
         catch (e) {
             //console.log(e);
         }
-
-
     });
 
 </script>
 
-<p class = "title">Create a new placemark </p>
+<div>
+    <h1 class="is-inline title is-5">Share a new spot!</h1> <button class="is-inline is-pulled-right" on:click|once={cancel}><i class="fa fa-times" aria-hidden="true" style="font-size:30px;"></i></button>
+</div>
 <p>
     Please enter the needed data below and select a point by clicking on the map.
 </p>
@@ -71,7 +77,7 @@
     </div>
     <div class="field">
         <label id="category"  for="category" class="label">Category</label>
-        <Select {items} {value}></Select>
+        <Select {items} {value} on:select={handleSelect} ></Select>
         <!-- <input bind:value={category} id="category" class="input" type="text" placeholder="Pick category" name="category"> -->
     </div>
     <div class="field is-horizontal">
