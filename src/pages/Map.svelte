@@ -8,7 +8,7 @@
         {/if}
     </div>
     <div class="navbar-end">
-        <button class="button" on:click={() => newpoi = !newpoi}>Add new POI</button>
+        <button class="button" on:click={hide_new} >Add new POI</button>
     </div>
 
 </div>
@@ -21,8 +21,8 @@
 </div>
     {/if}
 
-<div class="tile is-ancestor" style="height: 83vh">
-    {#if newpoi }
+<div class="tile is-ancestor" style="height: 81vh">
+    {#if show_new }
         <div class="tile is-4 is-vertical is-parent">
             <div class="tile is-child box">
                 <!-- include NewPOISidebar.svelte-->
@@ -66,12 +66,13 @@
     import Image_Sidebar from "./components/Image_Sidebar.svelte";
     import ReviewSidebar from "./components/ReviewSidebar.svelte";
     import POIMap from "./components/POIMap.svelte";
-    import {loggedin, SelectedPOI, setImage, showReviews} from "../services/stores.js";
+    import {loggedin, newPOI, SelectedPOI, setImage, showReviews} from "../services/stores.js";
 
     let stat
     let selectedPOI
     let setimage
     let review
+    let show_new
 
     function openImageUpload() {
         if(setimage == null) {
@@ -83,13 +84,24 @@
     }
 
     function openReview() {
-        if (review == true) {
+        if (review === true) {
             showReviews.set(null)
         } else {
             showReviews.set(true)
         }
     }
 
+    function hide_new() {
+        if (show_new === true) {
+            newPOI.set(false)
+        } else {
+            newPOI.set(true)
+        }
+    }
+
+    newPOI.subscribe(function (value) {
+        show_new = value
+    })
 
     loggedin.subscribe(value => {
         stat = value;
@@ -107,7 +119,6 @@
     });
 
     let sidebar_show = false;
-    let newpoi = false;
     let details = false;
 </script>
 
@@ -125,6 +136,5 @@
     /* Hide scrollbar for IE, Edge and Firefox */
     .scrollthing {
         -ms-overflow-style: none;  /* IE and Edge */
-        scrollbar-width: none;  /* Firefox */
     }
 </style>

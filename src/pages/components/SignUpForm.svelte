@@ -27,25 +27,25 @@
         <div class="field-body">
             <div class="field">
                 <label for="firstname" class="label">First Name</label>
-                <input bind:value={firstName} id="firstname" class="input" type="text" placeholder="Enter first name" name="firstName">
+                <input bind:value={firstName} autocomplete="given-name" id="firstname" class="input" type="text" placeholder="Enter first name" name="firstName">
             </div>
             <div class="field">
                 <label for="lastname" class="label">Last Name </label>
-                <input bind:value={lastName}  id="lastname" class="input" type="text" placeholder="Enter last name" name="lastName">
+                <input bind:value={lastName} autocomplete="family-name" id="lastname" class="input" type="text" placeholder="Enter last name" name="lastName">
             </div>
         </div>
     </div>
     <div class="field">
         <label for="username" class="label">Username</label>
-        <input bind:value={username} id="username" class="input" type="text" placeholder="Enter username" name="username">
+        <input bind:value={username} autocomplete="username" id="username" class="input" type="text" placeholder="Enter username" name="username">
     </div>
     <div class="field">
         <label for="email" class="label">Email</label>
-        <input bind:value={email} id="email" class="input" type="text" placeholder="Enter email" name="email">
+        <input bind:value={email} autocomplete="email" id="email" class="input" type="text" placeholder="Enter email" name="email">
     </div>
     <div class="field">
         <label for="password" class="label">Password</label>
-        <input bind:value={password} id="password" class="input" type="password" placeholder="Enter Password" name="password">
+        <input bind:value={password} autocomplete="new-password" id="password" class="input" type="password" placeholder="Enter Password" name="password">
     </div>
     <div class="field is-grouped">
         <button class="button is-link">Sign Up</button>
