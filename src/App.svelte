@@ -19,10 +19,10 @@
     });
 
     // for dev only
-    // setContext("PlacemarkService", new PlacemarkService("http://localhost:4000"));
+    setContext("PlacemarkService", new PlacemarkService("http://localhost:4000"));
 
     // for deployed use
-    setContext("PlacemarkService", new PlacemarkService("https://wahi-backend.herokuapp.com"));
+    // setContext("PlacemarkService", new PlacemarkService("https://wahi-backend.herokuapp.com"));
 
 
     let routes = {
