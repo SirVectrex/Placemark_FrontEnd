@@ -8,8 +8,8 @@
 
 
     const mapConfig = {
-        location: {lat: 51.20688339486562, lng: 10.085676936704893},
-        zoom: 6,
+        location: {lat: 48.12681635190671, lng: 11.558303833007814},
+        zoom: 9,
         minZoom: 1,
     };
     let map = null;

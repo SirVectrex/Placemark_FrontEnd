@@ -37,7 +37,7 @@
             // Use a dynamically-loaded component for this
             asyncComponent: () => import('./pages/Dashboard.svelte'),
             conditions: [
-                async (detail) => {
+                async () => {
                     // Return true to continue loading the component, or false otherwise
                     if (admin) {
                         return true

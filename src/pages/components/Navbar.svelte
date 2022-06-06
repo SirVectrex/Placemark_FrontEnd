@@ -1,7 +1,6 @@
 <script>
 
-    import {getContext, onMount} from "svelte";
-    import {push} from "svelte-spa-router";
+    import {getContext} from "svelte";
     import {loggedin, isAdmin} from "/src/services/stores.js";
 
     const placemarkservice = getContext("PlacemarkService");
@@ -43,9 +42,6 @@
             <a class="navbar-item" href="/#/">
                 Main
             </a>
-            <a class="navbar-item" href="/#/explore">
-                Explore
-            </a>
             <a class="navbar-item" href="/#/map">
                 Map
             </a>
@@ -62,7 +58,6 @@
 
         <div class="navbar-end">
             <div class="navbar-item">
-                status: {stat}
                 <div class="buttons">
                     {#if !stat}
                         <a class="button is-light" href="/#/login">

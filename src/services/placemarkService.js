@@ -1,7 +1,5 @@
 import axios from "axios";
-import { loggedin, SelectedPOI , isAdmin, currentUserName} from "./stores.js"
-import {src_url_equal} from "svelte/internal";
-
+import { loggedin, isAdmin, currentUserName} from "./stores.js"
 
 
 export class PlacemarkService {
@@ -73,7 +71,7 @@ export class PlacemarkService {
 
     async promoteUser(id) {
         try {
-            const response = axios.post(this.baseUrl + "/api/promoteToAdmin/" + id);
+            await axios.post(this.baseUrl + "/api/promoteToAdmin/" + id);
             // console.log(response)
         }
         catch (error) {
@@ -115,9 +113,19 @@ export class PlacemarkService {
 
     }
 
+    async getRatingStats(){
+        try {
+            const response = await axios.get(this.baseUrl + "/api/getRatingStats");
+            return response.data;
+        } catch (error) {
+            return null;
+        }
+    }
+
     async getUserStats(){
         try {
             const response = await axios.get(this.baseUrl + "/api/getPlacemarkUserStats");
+            console.log("userstats received")
             return response.data;
         } catch (error) {
             return null;
@@ -136,8 +144,7 @@ export class PlacemarkService {
 
     async addImage(id, formdata){
         try {
-
-            let test = await axios.post(this.baseUrl + "/api/addImage/" + id , formdata, {
+            await axios.post(this.baseUrl + "/api/addImage/" + id , formdata, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

@@ -1,23 +1,34 @@
-<img src="./src/assets/first.png" alt="earth" id="earth"  >
-<div class="container.is-max-desktop is-fluid">
+<script>
+
+</script>
+<div class="section">
+    <div class="box">
+        <h1 class="title">About the Project.</h1>
+        <div class="content">
+            WAHI has been initiated through a university project at the OTH Regensburg.
+            It is part of the Full-Stack-Development Course in the later semester.
+            <br>
+            A big thank you to the professor helping with bug-fixing and explanations.
+            <br>
+
+        </div>
+    </div>
 </div>
 
-<ImageCarousel images={images} />
+<div class="container.is-max-desktop is-fluid">
+    <img src="/first.png" alt="earth" id="earth"  >
+</div>
+
 <style>
     #earth {
-        width: 100%;
-        height: 100%;
+        width: 50%;
+        margin-left: 25%;
+        position: fixed;
+        bottom: 0;
+
+
     }
 
 </style>
 
 
-<script>
-    import ImageCarousel from "./components/ImageCarousel.svelte";
-
-    // sample images urls in an array from google
-    let images = [
-        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-        "https://www.gettyimages.at/gi-resources/images/500px/983794168.jpg",
-    ]
-</script>
