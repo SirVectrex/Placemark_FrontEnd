@@ -23,7 +23,7 @@
     let errorMessage;
 
     const placemarkservice = getContext("PlacemarkService");
-    let category = undefined;
+    let category = {value: 'public', label: 'Public'};
 
     function handleSelect(event) {
         category = event.detail;
@@ -37,6 +37,7 @@
     }
 
     async function create() {
+        console.log(category);
         let success = await placemarkservice.create(name, description, category.label, lat, long);
         if (success) {
             push("/");
@@ -83,11 +84,11 @@
     <div class="field is-horizontal">
         <div class="field-body">
             <div class="field">
-                <label for="lon" class="label">Name</label>
+                <label for="lon" class="label">Lon.</label>
                 <input bind:value={long} id="lon" class="input" type="text" placeholder="Longitude" name="longitute">
             </div>
             <div class="field">
-                <label for="lat" class="label">Last Name </label>
+                <label for="lat" class="label">Lat. </label>
                 <input bind:value={lat}  id="lat" class="input" type="text" placeholder="Latitude" name="latitude">
             </div>
         </div>
