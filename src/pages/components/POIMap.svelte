@@ -25,6 +25,7 @@
         });
     })
 
+
 </script>
 
 <div class="box container is-fullhd" id="map" style="height: 100%">
