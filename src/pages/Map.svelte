@@ -108,6 +108,7 @@
     }
 
     function reload_page() {
+
         reload = !reload;
     }
 

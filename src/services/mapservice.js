@@ -26,7 +26,6 @@ export class LeafletMap {
     };
 
 
-
     constructor(id, descriptor, activeLayer = "") {
         let defaultLayer = this.baseLayers.Terrain;
         if (activeLayer) {
@@ -48,6 +47,7 @@ export class LeafletMap {
         });
 
         this.imap.addControl(searchControl);
+        this.imap.invalidateSize();
 
 
 
@@ -147,4 +147,5 @@ export class LeafletMap {
     addClickEvent(callback) {
         this.imap.on("click", callback);
     }
+
 }
