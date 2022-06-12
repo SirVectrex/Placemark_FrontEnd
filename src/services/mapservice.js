@@ -2,6 +2,7 @@ import * as L from "leaflet";
 import {PointOnMap, SelectedPOI} from "./stores.js"
 import {getContext} from "svelte";
 import {placemarkService} from "./placemarkService.js";
+import { SearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 
 
 export class LeafletMap {
@@ -24,11 +25,14 @@ export class LeafletMap {
         }),
     };
 
+
+
     constructor(id, descriptor, activeLayer = "") {
         let defaultLayer = this.baseLayers.Terrain;
         if (activeLayer) {
             defaultLayer = this.baseLayers[activeLayer];
         }
+
         this.imap = L.map(id, {
             center: [descriptor.location.lat, descriptor.location.lng],
             zoom: descriptor.zoom,
@@ -38,9 +42,29 @@ export class LeafletMap {
             // click event
         });
 
+        const searchControl = new SearchControl({
+            style: 'button',
+            provider: new OpenStreetMapProvider(),
+        });
+
+        this.imap.addControl(searchControl);
+
+
+
         this.imap.on('click', function (e) {
             PointOnMap.set(e.latlng);
             console.log(e.latlng);
+        });
+
+        this.imap.on('geosearch/showlocation', function (e) {
+            let LatLng = {
+                lat: e.location.y,
+                lng: e.location.x
+            }
+            PointOnMap.set(
+                LatLng
+            )
+            console.log(LatLng);
         });
 
 
