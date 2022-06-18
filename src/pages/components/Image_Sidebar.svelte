@@ -24,8 +24,25 @@
 
     }
 
+    // tell a joke:
+
+
+
     let files;
     async function uploadImage(){
+        // check if file size > 5 MiB
+        if (files[0].size > 5 * 1024 * 1024) {
+            alert("File size is too big")
+            currentstate = {
+                message: "Image is too big.",
+                klass: "is-danger is-light",
+                type: "error",
+                show: true
+            }
+            return null;
+
+        }
+
         try {
             currentstate = {
                 message: "Currently uploading image...",
@@ -112,6 +129,7 @@
 
             </div>
         </div>
+        <span class="">Maximum Size: 5 MiB</span>
 
         {#if currentstate != null}
             <Message message={currentstate.message} klass={currentstate.klass} type={currentstate.type}/>
