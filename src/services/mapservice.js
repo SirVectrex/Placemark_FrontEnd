@@ -1,9 +1,18 @@
 import * as L from "leaflet";
-import {PointOnMap, SelectedPOI} from "./stores.js"
+import {PointOnMap, SelectedPOI, newPOI } from "./stores.js"
 import {getContext} from "svelte";
 import {placemarkService} from "./placemarkService.js";
 import { SearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 
+let newIsActive = false;
+newPOI.subscribe( (newPOI) => {
+    if (newPOI != null) {
+        newIsActive = true;
+    }
+    else {
+        newIsActive = false;
+    }
+})
 
 export class LeafletMap {
 
@@ -26,8 +35,10 @@ export class LeafletMap {
     };
 
 
+
     constructor(id, descriptor, activeLayer = "") {
         let defaultLayer = this.baseLayers.Terrain;
+        let clickMarker = null;
         if (activeLayer) {
             defaultLayer = this.baseLayers[activeLayer];
         }
@@ -52,8 +63,19 @@ export class LeafletMap {
 
 
         this.imap.on('click', function (e) {
+            if (clickMarker !== null) {
+                clickMarker.remove();
+            }
             PointOnMap.set(e.latlng);
-            console.log(e.latlng);
+
+            /*
+                if(newIsActive == true) {
+                clickMarker = L.marker(e.latlng)
+                this.addMarker(e.latlng, "new", "", "new");
+                console.log(e.latlng);
+            }
+             */
+
         });
 
         this.imap.on('geosearch/showlocation', function (e) {
@@ -103,7 +125,7 @@ export class LeafletMap {
         this.imap.setView(new L.LatLng(location.lat, location.lng), 8);
     }
 
-    addMarker(location, id, popupText = "", layerTitle = "default", ) {
+   addMarker(location, id, popupText = "", layerTitle = "default", ) {
         let group = {};
         let marker = L.marker([location.lat, location.lng]);
         marker.id = id;
@@ -128,6 +150,7 @@ export class LeafletMap {
         marker.on('click', this.fireMarkerClick)
 
         marker.addTo(group);
+        return marker;
     }
 
     fireMarkerClick(e) {

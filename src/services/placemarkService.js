@@ -10,6 +10,20 @@ export class PlacemarkService {
 
     constructor(baseUrl) {
         this.baseUrl = baseUrl;
+        const credentials = localStorage.WAHI
+        if (credentials) {
+            const savedUser = JSON.parse(credentials)
+            loggedin.set(true);
+            this.username = savedUser.username;
+            currentUserName.set(savedUser.username);
+            if (savedUser.role === "admin") {
+                isAdmin.set(true);
+            }
+            else {
+                isAdmin.set(false);
+            }
+            axios.defaults.headers.common["Authorization"] = "Bearer " + savedUser.token;
+        }
     }
 
     async getbaseUrl() {
@@ -202,7 +216,7 @@ export class PlacemarkService {
         try {
             const response = await axios.post(`${this.baseUrl}/api/users/authenticate`, {email, password});
             axios.defaults.headers.common["Authorization"] = "Bearer " + response.data.token;
-console.log(response)
+            console.log(response)
             if (response.data.success) {
                 loggedin.set(true);
                 this.username = response.data.username;
@@ -216,6 +230,8 @@ console.log(response)
                 else {
                     isAdmin.set(false);
                 }
+                localStorage.WAHI = JSON.stringify({username: response.data.username, role: response.data.role ,token:response.data.token});
+
                 return true;
             }
             return false;
@@ -229,6 +245,7 @@ console.log(response)
         loggedin.set(false);
         isAdmin.set(false);
         currentUserName.set(null);
+        localStorage.removeItem("WAHI");
         console.log("LOGGED OUT!")
     }
 
