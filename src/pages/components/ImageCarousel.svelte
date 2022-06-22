@@ -2,6 +2,10 @@
 
     import {SelectedPOI} from "../../services/stores.js";
 
+    import { Splide, SplideSlide } from '@splidejs/svelte-splide';
+    // Default theme
+    import '@splidejs/svelte-splide/css';
+
 
     export let images = [];
     let currentImage = "";
@@ -23,7 +27,7 @@
             // console.log(images)
             currentImage = images[0];
         } catch (e) {
-            console.log(e);
+            // console.log(e);
         }
 
 
@@ -43,8 +47,28 @@
 
 </script>
 
+<!-- for multiple photos-->
+{#if images.length > 1}
+<Splide aria-label="My Favorite Images">
+    {#each images as image}
+    <SplideSlide>
+        <img src="{image}" alt="Image"/>
+    </SplideSlide>
+    {/each}
+</Splide>
+{/if}
 
-{#if images.length > 0}
+
+<!-- for single photos -->
+{#if images.length > 0 && images.length < 2}
+<div class="card">
+    <img class="card-img-top" src="{currentImage}" alt="Card image cap">
+</div>
+{/if}
+
+
+<!--- old implementation
+
 <div class="card">
     <img class="card-img-top" src="{currentImage}" alt="Card image cap">
     {#if images.length > 1 && typeof images !== "string"}
@@ -54,5 +78,7 @@
 
     </div>
     {/if}
-</div>
-{/if}
+</div
+
+
+-->
