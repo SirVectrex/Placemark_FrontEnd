@@ -1,7 +1,7 @@
 <script>
     import { push } from "svelte-spa-router";
     import {getContext} from "svelte";
-    import {PointOnMap,  newPOI} from "/src/services/stores.js"
+    import {PointOnMap, newPOI, reload_map} from "/src/services/stores.js"
     import Select from 'svelte-select';
 
     let items = [
@@ -22,6 +22,12 @@
 
     let errorMessage;
 
+    $: message = {
+        type: "",
+        message: "",
+        show: false
+    }
+
     const placemarkservice = getContext("PlacemarkService");
     let category = {value: 'public', label: 'Public'};
 
@@ -36,13 +42,31 @@
         newPOI.set(false)
     }
 
+    let curr;
+    // get value of store
+    reload_map.subscribe( (value) => {
+        curr = value;
+    });
+
     async function create() {
         console.log(category);
         let success = await placemarkservice.create(name, description, category.label, lat, long);
-        if (success) {
-            push("/");
-        } else {
-            errorMessage = "Error Trying to sign up";
+        console.log(success)
+        if (success.status == "success") {
+            reload_map.set(!curr);
+            message.type = "is-primary";
+            message.message = "Successfully created";
+            message.show = true;
+        } else if (success.status == "error") {
+            message.type = "is-danger";
+            message.message = "Error creating";
+            message.show = true;
+        }
+        else {
+            errorMessage = success.message;
+            message.type = "is-danger";
+            message.message =  success.message
+            message.show = true;
         }
 
     }
@@ -99,8 +123,9 @@
         <button class="button is-link">Create</button>
     </div>
 </form>
-{#if errorMessage}
-    <div class="section">
-        {errorMessage}
+{#if message.show}
+
+    <div class="box {message.type}">
+        {message.message}
     </div>
 {/if}

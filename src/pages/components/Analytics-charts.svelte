@@ -4,7 +4,7 @@
     import {getContext, onMount} from "svelte";
     const placemarkservice = getContext("PlacemarkService");
 
-
+    let chart = "pie";
     let category_data;
     let user_data;
     let star_data;
@@ -64,19 +64,37 @@
         })
     }
 
+    function toggleView(){
+        if (chart == "pie") {
+            chart = "bar";
+        } else {
+            chart = "pie";
+        }
+    }
 
 
 
 </script>
 
 <div class="columns">
+    {#key chart}
     <div class="column">
-        <Chart data={category_data} type="pie" />
+        <div class="title is-5" >Categories</div>
+        <Chart data={category_data} type="{chart}" />
     </div>
     <div class="column">
-        <Chart data={user_data} type="pie" />
+        <div class="title is-5" >Most active Users</div>
+        <Chart data={user_data} type="{chart}" />
     </div>
     <div class="column">
-        <Chart data={star_data} type="pie"/>
+        <div class="title is-5" >Ratings</div>
+        <Chart data={star_data} type="{chart}"/>
+    </div>
+    {/key}
+    <br>
+    <br>
+    <div class="field">
+        <input id="switchSmall" on:change={toggleView} type="checkbox" name="switchSmall" class="switch is-small">
+        <label for="switchSmall">Pie- / Bar-Chart</label>
     </div>
 </div>

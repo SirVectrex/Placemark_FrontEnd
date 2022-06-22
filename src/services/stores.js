@@ -11,3 +11,4 @@ export const SelectedPOI = writable(null);
 export const setImage = writable(null);
 export const showReviews = writable(null)
 export const newPOI = writable(null);
+export const reload_map = writable(false);

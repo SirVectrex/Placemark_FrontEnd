@@ -1,5 +1,12 @@
 <script>
     import SignUpForm from "./components/SignUpForm.svelte";
+    import {loggedin} from "../services/stores.js";
+
+    let stat;
+    loggedin.subscribe(value => {
+        stat = value;
+    });
+
 </script>
 
 
@@ -49,7 +56,7 @@
         </div>
     </div>
 </div>
-
+{#if !stat}
 <div class="section " id="third">
     <div class="columns">
         <div class="column">
@@ -77,7 +84,7 @@
         </div>
     </div>
 </div>
-
+    {/if}
 
 
 <style>

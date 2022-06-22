@@ -14,10 +14,10 @@
 
     async function signup() {
         let success = await placemarkservice.signup(firstName, lastName, username, email, password)
-        if (success) {
+        if (success.status == "success") {
             push("/login");
         } else {
-            errorMessage = "Signup failed";
+            errorMessage = success.message;
         }
     }
 </script>

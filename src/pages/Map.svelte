@@ -8,6 +8,7 @@
         {/if}
     </div>
     <div class="navbar-end">
+        <button class="button" on:click={reload_page}>Reload Map</button>
         <button class="button" on:click={hide_new} >Add new POI</button>
     </div>
 
@@ -16,8 +17,13 @@
 {#if !stat}
 <div class="navbar box">
     <p>
-    Please login to create a new POI or review an existing POI.
+    Please login to create or review a POI.
     </p>
+    <div class="navbar-end">
+        <p>In case of rendering issues:</p>
+        <button class="button" on:click={reload_page}>Reload Map</button>
+    </div>
+
 </div>
     {/if}
 
@@ -54,8 +60,9 @@
     {/if}
 
     <div class="tile is-parent container container.is-fullhd">
+        {#key reload}
             <POIMap/>
-
+        {/key}
     </div>
 </div>
 
@@ -66,13 +73,14 @@
     import Image_Sidebar from "./components/Image_Sidebar.svelte";
     import ReviewSidebar from "./components/ReviewSidebar.svelte";
     import POIMap from "./components/POIMap.svelte";
-    import {loggedin, newPOI, SelectedPOI, setImage, showReviews} from "../services/stores.js";
+    import {loggedin, newPOI, reload_map, SelectedPOI, setImage, showReviews} from "../services/stores.js";
 
     let stat
     let selectedPOI
     let setimage
     let review
     let show_new
+    let reload = 0;
 
     function openImageUpload() {
         if(setimage == null) {
@@ -98,6 +106,15 @@
             newPOI.set(true)
         }
     }
+
+    function reload_page() {
+
+        reload = !reload;
+    }
+
+    reload_map.subscribe(function (value) {
+            reload = !reload
+    })
 
     newPOI.subscribe(function (value) {
         show_new = value
