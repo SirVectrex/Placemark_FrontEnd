@@ -8,10 +8,12 @@
     import Navbar from "./pages/components/Navbar.svelte";
     import About from "./pages/About.svelte";
     import Map from "./pages/Map.svelte";
+
     import { PlacemarkService } from "./services/placemarkService.js";
     import {setContext} from "svelte";
     import {wrap} from 'svelte-spa-router/wrap'
     import {isAdmin} from "./services/stores.js";
+    import UserSettings from "./pages/UserSettings.svelte";
 
     let admin = false;
     isAdmin.subscribe(value => {
@@ -19,10 +21,10 @@
     });
 
     // for dev only
-    // setContext("PlacemarkService", new PlacemarkService("http://localhost:4000"));
+    setContext("PlacemarkService", new PlacemarkService("http://localhost:4000"));
 
     // for deployed use
-    setContext("PlacemarkService", new PlacemarkService("https://wahi-backend.herokuapp.com"));
+    // setContext("PlacemarkService", new PlacemarkService("https://wahi-backend.herokuapp.com"));
 
 
     let routes = {
@@ -32,6 +34,7 @@
         "/main": Main,
         "/about": About,
         "/map": Map,
+        "/usersettings": UserSettings,
         "/map/:id": Map,
         "/dashboard": wrap({
             // Use a dynamically-loaded component for this

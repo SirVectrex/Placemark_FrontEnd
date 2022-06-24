@@ -3,22 +3,26 @@ import {PointOnMap, SelectedPOI, newPOI } from "./stores.js"
 import {getContext} from "svelte";
 import {placemarkService} from "./placemarkService.js";
 import { SearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
-import {control} from "leaflet/dist/leaflet-src.esm.js";
+import {control, Point} from "leaflet/dist/leaflet-src.esm.js";
 import {enableTextSelection} from "leaflet/src/dom/DomUtil.js";
 
 let newIsActive = false;
 newPOI.subscribe( (newPOI) => {
-    if (newPOI != null) {
-        newIsActive = true;
-    }
-    else {
-        newIsActive = false;
-    }
+    newIsActive = newPOI;
 })
+
+function getActive(){
+    return newIsActive;
+}
+
+function getNow() {
+    return "now"
+}
 
 export class LeafletMap {
 
     imap = {};
+    clickMarker = null;
     control = {};
     overlays = {};
 
@@ -53,6 +57,7 @@ export class LeafletMap {
             layers: [defaultLayer],
             // click event
         });
+        let map = this.imap
 
         const searchControl = new SearchControl({
             style: 'button',
@@ -65,14 +70,18 @@ export class LeafletMap {
         let hiddenMethodMap = this.imap;
         hiddenMethodMap._onResize();
 
-
-
         this.imap.on('click', function (e) {
-            if (clickMarker !== null) {
-                clickMarker.remove();
+            // console.log(newIsActive)
+            if (newIsActive) {
+                if (clickMarker !== null) {
+                    clickMarker.remove();
+                }
+                clickMarker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
+                PointOnMap.set(e.latlng);
             }
-            PointOnMap.set(e.latlng);
         });
+
+
 
         this.imap.on('geosearch/showlocation', function (e) {
             let LatLng = {
@@ -87,6 +96,7 @@ export class LeafletMap {
 
 
     }
+
 
     addLayerControl() {
         let overlayMaps = {};
@@ -172,5 +182,6 @@ export class LeafletMap {
     addClickEvent(callback) {
         this.imap.on("click", callback);
     }
+
 
 }

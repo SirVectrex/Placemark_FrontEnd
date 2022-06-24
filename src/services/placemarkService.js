@@ -30,6 +30,15 @@ export class PlacemarkService {
         return this.baseUrl;
     }
 
+    async getUserInfo(){
+        try {
+            const response = await axios.get(this.baseUrl + "/api/getUserbyUsername/" + this.username);
+            return response.data;
+        } catch (error) {
+            return null;
+        }
+    }
+
     async create(name, description, category, lng, lat) {
         let res = {
             status : "",
@@ -62,6 +71,19 @@ export class PlacemarkService {
             return res
 
             }
+    }
+
+    async updateMail(mail){
+        try {
+            const payload = {
+                username : this.username,
+                email : mail
+            }
+            const response = await axios.post(this.baseUrl + "/api/changeMail", payload);
+            return response.data;
+        } catch (error) {
+            return false;
+        }
     }
 
     async addPhoto(id, image){
@@ -265,7 +287,7 @@ export class PlacemarkService {
             return res;
         } catch (error) {
             if (error.response.status == 400) {
-                res = { status : "exists", message : "Placemark already exists"};
+                res = { status : "exists", message : "User already exists"};
             }
             else {
                 res = { status : "error", message : "Signup failed"};
