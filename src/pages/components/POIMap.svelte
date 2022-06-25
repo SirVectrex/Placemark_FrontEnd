@@ -9,7 +9,7 @@
 
     const mapConfig = {
         location: {lat: 48.12681635190671, lng: 11.558303833007814},
-        zoom: 9,
+        zoom: 8,
         minZoom: 1,
     };
     let map = null;
@@ -17,12 +17,14 @@
     onMount(async () => {
         map = new LeafletMap("map", mapConfig);
         map.showZoomControl();
-        map.showLayerControl();
+        // map.showLayerControl();
+
 
         const pois = await placemarkService.getPois();
         pois.forEach(poi => {
-            map.addMarker({lat: poi.location.coordinates[0], lng: poi.location.coordinates[1]}, poi._id, poi.name);
+            map.addMarker({lat: poi.location.coordinates[0], lng: poi.location.coordinates[1]}, poi._id, poi.name, poi.category);
         });
+        map.addLayerControl();
     })
 
 

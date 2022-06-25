@@ -1,7 +1,8 @@
 <script>
 
     import {getContext} from "svelte";
-    import {loggedin, isAdmin} from "/src/services/stores.js";
+    import {loggedin, isAdmin, currentUserName} from "/src/services/stores.js";
+    import SidebarPanels from 'svelte-sidebar-panels'
 
     const placemarkservice = getContext("PlacemarkService");
 
@@ -14,12 +15,15 @@
     isAdmin.subscribe(value => {
         admin = value;
     });
+    let userName
+    currentUserName.subscribe(value => {
+        userName = value;
+    });
 
 
     async function funclogout() {
         await placemarkservice.logout();
     }
-
 
 </script>
 
@@ -69,15 +73,21 @@
 
                     {/if}
                     {#if stat}
+                        <div id="welcome" class="tag is-light">
+                            <p><i class="fa fa-hand-peace-o" aria-hidden="true"></i> {userName}</p>
+                        </div>
+
+                        <div>
+                            <a class="navbar-item" href="/#/usersettings">
+                                <i class="fa fa-cog" aria-hidden="true"></i>
+                            </a>
+                        </div>
                         <div>
                         <button id="logout" class="button is-light" on:click|once={funclogout}>
                             Log Out
                         </button>
                         </div>
                     {/if}
-
-
-
                 </div>
             </div>
         </div>
