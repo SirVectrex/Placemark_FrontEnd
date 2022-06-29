@@ -12,21 +12,17 @@
             <br>
 
         </div>
+        <div class="container.is-max-desktop is-fluid has-text-centered">
+            <img class="image is-inline-block" src="/first.png" alt="earth" id="earth"  >
+        </div>
     </div>
 </div>
 
-<div class="container.is-max-desktop is-fluid">
-    <img src="/first.png" alt="earth" id="earth"  >
-</div>
+
 
 <style>
     #earth {
         width: 50%;
-        margin-left: 25%;
-        position: fixed;
-        bottom: 0;
-
-
     }
 
 </style>

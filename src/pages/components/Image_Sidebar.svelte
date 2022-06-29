@@ -24,10 +24,6 @@
 
     }
 
-    // tell a joke:
-
-
-
     let files;
     async function uploadImage(){
         // check if file size > 5 MB

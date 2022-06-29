@@ -6,9 +6,10 @@
 
     const placemarkService = getContext("PlacemarkService");
 
+    let center = {lat: 48.12681635190671, lng: 11.558303833007814};
 
     const mapConfig = {
-        location: {lat: 48.12681635190671, lng: 11.558303833007814},
+        location: center,
         zoom: 8,
         minZoom: 1,
     };
@@ -21,11 +22,30 @@
 
 
         const pois = await placemarkService.getPois();
+
+        center = findCenter(pois);
+
         pois.forEach(poi => {
             map.addMarker({lat: poi.location.coordinates[0], lng: poi.location.coordinates[1]}, poi._id, poi.name, poi.category);
         });
         map.addLayerControl();
+        map.moveTo(8, center);
     })
+
+    function findCenter(markers) {
+        let lat = 0;
+        let lng = 0;
+
+        markers.forEach(poi => {
+            lat += poi.location.coordinates[0]
+            lng += poi.location.coordinates[1];
+        });
+
+        lat /= markers.length;
+        lng /= markers.length;
+
+        return {lat: lat, lng: lng}
+    }
 
 
 </script>

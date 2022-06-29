@@ -1,10 +1,18 @@
 <script>
     import SignUpForm from "./components/SignUpForm.svelte";
     import {loggedin} from "../services/stores.js";
+    import {getContext, onMount} from "svelte";
+    const placemarkservice = getContext("PlacemarkService");
+
+
 
     let stat;
     loggedin.subscribe(value => {
         stat = value;
+    });
+
+    onMount(() => {
+        placemarkservice.wakeUpServer()
     });
 
 </script>
