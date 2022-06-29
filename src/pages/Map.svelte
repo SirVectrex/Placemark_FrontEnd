@@ -73,14 +73,30 @@
     import Image_Sidebar from "./components/Image_Sidebar.svelte";
     import ReviewSidebar from "./components/ReviewSidebar.svelte";
     import POIMap from "./components/POIMap.svelte";
+    import {getContext} from "svelte";
     import {loggedin, newPOI, reload_map, SelectedPOI, setImage, showReviews} from "../services/stores.js";
+    import {onMount} from "svelte";
 
+    const placemarkservice = getContext("PlacemarkService");
+
+    export let params = {}
     let stat
     let selectedPOI
     let setimage
     let review
     let show_new
     let reload = 0;
+
+    onMount(async () => {
+        if (params.id != undefined)
+        {
+            const poi = await placemarkservice.getPoi(params.id)
+            if (poi != null) {
+                SelectedPOI.set(poi)
+            }
+
+        }
+    });
 
     function openImageUpload() {
         if(setimage == null) {

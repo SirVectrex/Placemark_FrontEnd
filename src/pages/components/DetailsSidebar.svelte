@@ -3,7 +3,6 @@
 import StarRating from 'svelte-star-rating';
 import {SelectedPOI} from "../../services/stores.js";
 import ImageCarousel from "./ImageCarousel.svelte";
-import ReviewSidebar from "./ReviewSidebar.svelte";
 import {getContext} from "svelte";
 import {loggedin,showReviews , setImage} from "../../services/stores.js";
 const placemarkservice = getContext("PlacemarkService");
@@ -36,6 +35,14 @@ function cancel() {
     SelectedPOI.set(null);
     setImage.set(null)
     showReviews.set(null)
+}
+
+function copyLink(){
+    const link =  "https://wahi.vercel.app/#/map/" + current._id;
+    let data = [new ClipboardItem({ "text/plain": new Blob([link], { type: "text/plain" }) })];
+    navigator.clipboard.write(data).then(function() {
+        alert("Link copied to clipboard");
+    });
 }
 
 function open() {
@@ -80,6 +87,7 @@ const style = 'display: inline-flex';
         </div>
         {/each}
     {/if}
+    <button class=" button is-primary is-inline is-pulled-right" on:click={copyLink}>Share this POI.</button>
 </div>
 <br>
 
