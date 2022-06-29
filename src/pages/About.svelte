@@ -45,8 +45,6 @@
 
         </div>
 
-
-
     </div>
 </div>
 
@@ -55,8 +53,6 @@
 <style>
     #earth {
         width: 50%;
-
-
     }
 
 </style>

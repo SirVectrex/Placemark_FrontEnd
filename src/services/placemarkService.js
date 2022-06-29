@@ -58,8 +58,9 @@ export class PlacemarkService {
                 },
                 creationuser: this.username
             };
-            await axios.post(this.baseUrl + "/api/addPlacemark", placemark);
-            res = { status : "success", message : "Placemark added"};
+            let created = await axios.post(this.baseUrl + "/api/addPlacemark", placemark);
+            console.log(created)
+            res = { status : "success", message : "Placemark added", newid: created.data._id };
             return res;
         } catch (error) {
             if (error.response.status == 400) {
@@ -269,6 +270,10 @@ export class PlacemarkService {
         currentUserName.set(null);
         localStorage.removeItem("WAHI");
         console.log("LOGGED OUT!")
+    }
+
+    async wakeUpServer(){
+        await axios.get(`${this.baseUrl}/api/test`);
     }
 
     async signup(firstName, lastName, username, email, password) {

@@ -2,6 +2,7 @@
     import {getContext} from "svelte";
     import {PointOnMap, newPOI, reload_map} from "/src/services/stores.js"
     import Select from 'svelte-select';
+    import Message from "./Message.svelte";
 
     let items = [
         {value: 'public', label: 'Public'},
@@ -18,6 +19,8 @@
     let long = "";
     let lat = "";
     let img;
+    let filename;
+    $: currentstate = null;
 
     let errorMessage;
 
@@ -48,14 +51,13 @@
     });
 
     async function create() {
-        console.log(category);
-        let success = await placemarkservice.create(name, description, category.label, lat, long);
-        console.log(success)
+        let success = await placemarkservice.create(name, description, category.label, lat, long)
         if (success.status == "success") {
-            cancel()
+            
+            await uploadImage(success.newid)
             reload_map.set(!curr);
+            cancel()
             /* --- SUCCESS Message is currently disabled
-
             message.type = "is-primary";
             message.message = "Successfully created";
             message.show = true;
@@ -74,6 +76,48 @@
         }
 
     }
+
+    let files = null;
+    async function uploadImage(newID){
+        // check if file size > 5 MB
+        if(files == null )
+            return;
+        if(files[0].size > 5000000) {
+            currentstate = {
+                message: "Image is too big.",
+                klass: "is-danger is-light",
+                type: "error",
+                show: true
+            }
+            return;
+        }
+
+        try {
+            currentstate = {
+                message: "Currently uploading image...",
+                klass: "is-warning is-light",
+                type: "loading",
+                show: true
+            }
+            let formData = new FormData();
+            formData.append("image", files[0]);
+            let success = await placemarkservice.addImage(newID, formData)
+            currentstate = {
+                message: "Image uploaded",
+                klass: "is-success is-light",
+                type: "success",
+                show: true
+            }
+        } catch (error) {
+            currentstate = {
+                message: "Error uploading image",
+                klass: "is-danger is-light",
+                type: "error",
+                show: true
+            }
+        }
+    }
+
     let pos;
     PointOnMap.subscribe(value => {
         try {
@@ -85,6 +129,15 @@
             //console.log(e);
         }
     });
+
+    function updateFilename(){
+        // wait for 1s
+        setTimeout(() => {
+            console.log(files);
+
+            filename = files[0].name;
+        }, 100);
+    }
 
 </script>
 
@@ -102,7 +155,7 @@
     </div>
     <div class="field">
         <label for="description" class="label">Description </label>
-        <input bind:value={description}  id="description" class="input textarea" type="text" placeholder="Enter POI Description" name="description">
+        <textarea bind:value={description}  id="description" class="textarea" type="textarea" placeholder="Enter POI Description" name="description"></textarea>
     </div>
     <div class="field">
         <label id="category"  for="category" class="label">Category</label>
@@ -122,6 +175,32 @@
         </div>
     </div>
 
+    Upload an image too!
+    <div class="">
+        <form on:submit|preventDefault>
+            <div id="file-select" class="file has-name is-fullwidth">
+                <label class="file-label ">
+                    <input class="file-input" on:change={updateFilename} name="imagefile" bind:files id="imagefile" type="file" accept="image/png, image/jpeg">
+                    <span class="file-cta ">
+                         <span class="file-icon">
+                           <i class="fas fa-upload "></i>
+                         </span>
+                         <span class="file-label">
+                           Choose a file…
+                         </span>
+                        </span>
+                </label>
+            </div>
+        </form>
+
+        <span class="">You have selected: <br> {filename}</span>
+
+    </div>
+    <span class="">Maximum Size: 5 MB</span>
+
+    {#if currentstate != null || currentstate != undefined}
+        <Message message={currentstate.message} klass={currentstate.klass} type={currentstate.type}/>
+    {/if}
 
     <div class="field is-grouped">
         <button class="button is-link">Create</button>
