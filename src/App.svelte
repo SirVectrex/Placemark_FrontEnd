@@ -12,13 +12,18 @@
     import { PlacemarkService } from "./services/placemarkService.js";
     import {setContext} from "svelte";
     import {wrap} from 'svelte-spa-router/wrap'
-    import {isAdmin} from "./services/stores.js";
+    import {isAdmin, loggedin} from "./services/stores.js";
     import UserSettings from "./pages/UserSettings.svelte";
 
     let admin = false;
     isAdmin.subscribe(value => {
         admin = value;
     });
+
+    let authenticated = false
+    loggedin.subscribe(value => {
+        authenticated = value;
+    })
 
     // for dev only
     // setContext("PlacemarkService", new PlacemarkService("http://localhost:4000"));
@@ -34,7 +39,22 @@
         "/main": Main,
         "/about": About,
         "/map": Map,
-        "/usersettings": UserSettings,
+        "/usersettings": wrap({
+            // Use a dynamically-loaded component for this
+            asyncComponent: () => import('./pages/UserSettings.svelte'),
+            conditions: [
+            async () => {
+                // Return true to continue loading the component, or false otherwise
+                if (authenticated) {
+                    return true
+                }
+                else {
+                    alert("You have to be logged in to access this page");
+                    return false
+                }
+            }
+        ]
+        }),
         "/map/:id": Map,
         "/dashboard": wrap({
             // Use a dynamically-loaded component for this

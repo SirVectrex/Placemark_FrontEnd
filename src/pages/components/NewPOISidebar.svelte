@@ -1,4 +1,5 @@
 <script>
+    import { push } from "svelte-spa-router";
     import {getContext} from "svelte";
     import {PointOnMap, newPOI, reload_map} from "/src/services/stores.js"
     import Select from 'svelte-select';
@@ -53,15 +54,14 @@
     async function create() {
         let success = await placemarkservice.create(name, description, category.label, lat, long)
         if (success.status == "success") {
-            
             await uploadImage(success.newid)
-            reload_map.set(!curr);
             cancel()
-            /* --- SUCCESS Message is currently disabled
+            reload_map.set(!curr);
+
+            /*
             message.type = "is-primary";
             message.message = "Successfully created";
             message.show = true;
-
              */
         } else if (success.status == "error") {
             message.type = "is-danger";

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { loggedin, isAdmin, currentUserName} from "./stores.js"
+import {push} from "svelte-spa-router";
 
 
 export class PlacemarkService {
@@ -269,6 +270,7 @@ export class PlacemarkService {
         isAdmin.set(false);
         currentUserName.set(null);
         localStorage.removeItem("WAHI");
+        push("#/")
         console.log("LOGGED OUT!")
     }
 
