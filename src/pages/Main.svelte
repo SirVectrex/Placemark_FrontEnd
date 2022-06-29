@@ -9,15 +9,6 @@
 
 </script>
 
-
-
-
-
-
-
-
-
-
 <div id="first" class="columns  section is-vcentered">
     <div class="column ">
         <!-- get img from assets-->
@@ -41,13 +32,13 @@
             Feature Rich!
         </h1>
         <p class="is-primary">
-            All about automotive Photography? So are we.
+            All about Photography? So are we.
             <br>
-            Most important about taking photos of an object is the location and light you position it in. Whilst
-            we can't help with changing the weather, we can surely help you to find a great spot!
+            A good shot is a composition of many aspects. Whilst lighting, angles and the object are extremely important, the location itself plays a major role too.
             <br>
+            That's what WAHI is here for. Helping you find the perfect spot.
             <br>
-            Curated by the photographer <a href="https://newtonmaniac.com">NewtonManiac</a>
+            Curated and developed by photographer <a href="https://newtonmaniac.com">NewtonManiac</a>
         </p>
     </div>
     <div class="column">
