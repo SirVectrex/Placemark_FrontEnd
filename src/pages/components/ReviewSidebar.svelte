@@ -50,7 +50,7 @@
     let comment
     let commenterror = null
     async function giveComment() {
-        let success = await placemarkservice.giveComment(current._id, loggedInUser, comment);
+        let success = await placemarkservice.giveComment(current._id, comment, loggedInUser);
         if (success) {
             console.log(success)
             commenterror = "Thank you for your feedback!"
