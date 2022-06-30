@@ -1,6 +1,5 @@
 <script>
 
-
     import Main from "./pages/Main.svelte"
     import Login from "./pages/Login.svelte"
     import Signup from "./pages/SignUp.svelte"
@@ -13,7 +12,6 @@
     import {setContext} from "svelte";
     import {wrap} from 'svelte-spa-router/wrap'
     import {isAdmin, loggedin} from "./services/stores.js";
-    import UserSettings from "./pages/UserSettings.svelte";
 
     let admin = false;
     isAdmin.subscribe(value => {

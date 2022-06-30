@@ -1,14 +1,13 @@
 import * as L from "leaflet";
+import { SearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
 import {PointOnMap, SelectedPOI, newPOI } from "./stores.js"
-import {getContext} from "svelte";
 import {placemarkService} from "./placemarkService.js";
-import { SearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
-import {control, Point} from "leaflet/dist/leaflet-src.esm.js";
-import {enableTextSelection} from "leaflet/src/dom/DomUtil.js";
+
+
 
 let newIsActive = false;
-newPOI.subscribe( (newPOI) => {
-    newIsActive = newPOI;
+newPOI.subscribe( (poi) => {
+    newIsActive = poi;
 })
 
 function getActive(){
@@ -22,8 +21,9 @@ function getNow() {
 export class LeafletMap {
 
     imap = {};
-    clickMarker = null;
+    
     control = {};
+    
     overlays = {};
 
     // https://leaflet-extras.github.io/leaflet-providers/preview/
@@ -32,7 +32,7 @@ export class LeafletMap {
         Terrain: L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
             maxZoom: 17,
             attribution:
-                'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
+                "Map data: &copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors, <a href=\"http://viewfinderpanoramas.org\">SRTM</a> | Map style: &copy; <a href=\"https://opentopomap.org\">OpenTopoMap</a> (<a href=\"https://creativecommons.org/licenses/by-sa/3.0/\">CC-BY-SA</a>)",
         }),
         Satellite: L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
             attribution:
@@ -57,20 +57,20 @@ export class LeafletMap {
             layers: [defaultLayer],
             // click event
         });
-        let map = this.imap
+        const map = this.imap
 
         const searchControl = new SearchControl({
-            style: 'button',
+            style: "button",
             provider: new OpenStreetMapProvider(),
         });
 
         this.imap.addControl(searchControl, this.baseLayers, this.overlays);
         this.imap.invalidateSize();
 
-        let hiddenMethodMap = this.imap;
+        const hiddenMethodMap = this.imap;
         hiddenMethodMap._onResize();
 
-        this.imap.on('click', function (e) {
+        this.imap.on("click", (e) => {
             // console.log(newIsActive)
             if (newIsActive) {
                 if (clickMarker !== null) {
@@ -83,8 +83,8 @@ export class LeafletMap {
 
 
 
-        this.imap.on('geosearch/showlocation', function (e) {
-            let LatLng = {
+        this.imap.on("geo-search/showlocation", (e) => {
+            const LatLng = {
                 lat: e.location.y,
                 lng: e.location.x
             }
@@ -99,8 +99,9 @@ export class LeafletMap {
 
 
     addLayerControl() {
-        let overlayMaps = {};
-        for (let key in this.overlays) {
+        const overlayMaps = {};
+        // eslint-disable-next-line guard-for-in
+        for (const key in this.overlays) {
             this.overlays[key].addTo(this.imap);
             overlayMaps[key] = this.overlays[key];
         }
@@ -140,16 +141,16 @@ export class LeafletMap {
    addMarker(location, id, popupText = "", layerTitle = "default", ) {
        // add to map
        let group = {};
-        let marker = L.marker([location.lat, location.lng]);
+        const marker = L.marker([location.lat, location.lng]);
         marker.id = id;
         if (popupText) {
-            var popup = L.popup({autoClose: false, closeOnClick: false});
+            const popup = L.popup({autoClose: false, closeOnClick: false});
             popup.setContent(popupText);
             marker.bindPopup(popup);
-            marker.on('mouseover', function (e) {
+            marker.on("mouseover", function (e) {
                 this.openPopup();
             });
-            marker.on('mouseout', function (e) {
+            marker.on("mouseout", function (e) {
                 this.closePopup();
             });
         }
@@ -159,7 +160,7 @@ export class LeafletMap {
         } else {
             group = this.overlays[layerTitle];
         }
-        marker.on('click', this.fireMarkerClick)
+        marker.on("click", this.fireMarkerClick)
         marker.addTo(group);
 
         return marker;
@@ -174,7 +175,7 @@ export class LeafletMap {
 
     invalidateSize() {
         this.imap.invalidateSize();
-        let hiddenMethodMap = this.imap;
+        const hiddenMethodMap = this.imap;
         hiddenMethodMap._onResize();
     }
 

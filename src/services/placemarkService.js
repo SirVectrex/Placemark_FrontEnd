@@ -1,11 +1,13 @@
 import axios from "axios";
-import { loggedin, isAdmin, currentUserName} from "./stores.js"
 import {push} from "svelte-spa-router";
+import { loggedin, isAdmin, currentUserName} from "./stores.js"
 
 
 export class PlacemarkService {
     baseUrl = "";
+
     loggedIn = false;
+
     username = "";
 
 
@@ -23,7 +25,7 @@ export class PlacemarkService {
             else {
                 isAdmin.set(false);
             }
-            axios.defaults.headers.common["Authorization"] = "Bearer " + savedUser.token;
+            axios.defaults.headers.common.Authorization = `Bearer ${  savedUser.token}`;
         }
     }
 
@@ -33,7 +35,7 @@ export class PlacemarkService {
 
     async getUserInfo(){
         try {
-            const response = await axios.get(this.baseUrl + "/api/getUserbyUsername/" + this.username);
+            const response = await axios.get(`${this.baseUrl  }/api/getUserbyUsername/${  this.username}`);
             return response.data;
         } catch (error) {
             return null;
@@ -59,12 +61,12 @@ export class PlacemarkService {
                 },
                 creationuser: this.username
             };
-            let created = await axios.post(this.baseUrl + "/api/addPlacemark", placemark);
+            const created = await axios.post(`${this.baseUrl  }/api/addPlacemark`, placemark);
             console.log(created)
             res = { status : "success", message : "Placemark added", newid: created.data._id };
             return res;
         } catch (error) {
-            if (error.response.status == 400) {
+            if (error.response.status === 400) {
                 res = { status : "exists", message : "Placemark already exists"};
             }
             else {
@@ -81,7 +83,7 @@ export class PlacemarkService {
                 username : this.username,
                 email : mail
             }
-            const response = await axios.post(this.baseUrl + "/api/changeMail", payload);
+            const response = await axios.post(`${this.baseUrl  }/api/changeMail`, payload);
             return response.data;
         } catch (error) {
             return false;
@@ -94,7 +96,7 @@ export class PlacemarkService {
                 id : id,
                 image : image
             };
-            await axios.post(this.baseUrl + "/api/addPhoto", photo);
+            await axios.post(`${this.baseUrl  }/api/addPhoto`, photo);
             return true;
         } catch (error) {
             return false;
@@ -103,7 +105,7 @@ export class PlacemarkService {
 
     async deletePOI(id){
         try {
-            await axios.delete(this.baseUrl + "/api/deletePlacemark/" + id);
+            await axios.delete(`${this.baseUrl  }/api/deletePlacemark/${  id}`);
             return true;
         } catch (error) {
             return false;
@@ -112,7 +114,7 @@ export class PlacemarkService {
 
     async deleteUser(id) {
         try {
-            await axios.delete(this.baseUrl + "/api/deleteUser/" + id);
+            await axios.delete(`${this.baseUrl  }/api/deleteUser/${  id}`);
             return true;
         } catch (error) {
             return false;
@@ -121,8 +123,9 @@ export class PlacemarkService {
 
     async promoteUser(id) {
         try {
-            await axios.post(this.baseUrl + "/api/promoteToAdmin/" + id);
+            await axios.post(`${this.baseUrl  }/api/promoteToAdmin/${  id}`);
             // console.log(response)
+            return true;
         }
         catch (error) {
             return false;
@@ -131,7 +134,7 @@ export class PlacemarkService {
 
     async getAllUsers(){
         try {
-            const response = await axios.get(this.baseUrl + "/api/getUsers");
+            const response = await axios.get(`${this.baseUrl  }/api/getUsers`);
             return response.data;
         } catch (error) {
             return null;
@@ -141,18 +144,19 @@ export class PlacemarkService {
     async getPois(){
         try {
             // api/getPlacemarks
-            const response = await axios.get(this.baseUrl + "/api/getPlacemarks");
+            const response = await axios.get(`${this.baseUrl  }/api/getPlacemarks`);
             // console.log(response.data);
             return response.data;
         } catch (error) {
             console.log(error);
+            return null;
         }
     }
 
     async getPoi(id){
         try {
             console.log(this.baseUrl)
-            const response = await axios.get(this.baseUrl + "/api/getPlacemarkbyID/" + id);
+            const response = await axios.get(`${this.baseUrl  }/api/getPlacemarkbyID/${  id}`);
             // console.log(response)
             return response.data;
         }
@@ -165,7 +169,7 @@ export class PlacemarkService {
 
     async getRatingStats(){
         try {
-            const response = await axios.get(this.baseUrl + "/api/getRatingStats");
+            const response = await axios.get(`${this.baseUrl  }/api/getRatingStats`);
             return response.data;
         } catch (error) {
             return null;
@@ -174,7 +178,7 @@ export class PlacemarkService {
 
     async getUserStats(){
         try {
-            const response = await axios.get(this.baseUrl + "/api/getPlacemarkUserStats");
+            const response = await axios.get(`${this.baseUrl  }/api/getPlacemarkUserStats`);
             console.log("userstats received")
             return response.data;
         } catch (error) {
@@ -185,7 +189,7 @@ export class PlacemarkService {
 
     async getCategoryStats(){
         try {
-            const response = await axios.get(this.baseUrl + "/api/getPlacemarkStats");
+            const response = await axios.get(`${this.baseUrl  }/api/getPlacemarkStats`);
             return response.data;
         } catch (error) {
             return null;
@@ -194,9 +198,9 @@ export class PlacemarkService {
 
     async addImage(id, formdata){
         try {
-            await axios.post(this.baseUrl + "/api/addImage/" + id , formdata, {
+            await axios.post(`${this.baseUrl  }/api/addImage/${  id}` , formdata, {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    "Content-Type": "multipart/form-data"
                 }
             })
             /*
@@ -219,7 +223,7 @@ export class PlacemarkService {
 
     async giveRating(id, rating){
         try {
-            const response = await axios.post(this.baseUrl + "/api/addRating", {id, rating});
+            const response = await axios.post(`${this.baseUrl  }/api/addRating`, {id, rating});
             return response.data;
         } catch (error) {
             return false;
@@ -228,7 +232,7 @@ export class PlacemarkService {
 
     async giveComment(id, comment, username){
         try {
-            const response = await axios.post(this.baseUrl + "/api/giveComment", {id, comment, username});
+            const response = await axios.post(`${this.baseUrl  }/api/giveComment`, {id, comment, username});
             return response.data;
         } catch (error) {
             console.log(error);
@@ -239,7 +243,7 @@ export class PlacemarkService {
     async login(email, password) {
         try {
             const response = await axios.post(`${this.baseUrl}/api/users/authenticate`, {email, password});
-            axios.defaults.headers.common["Authorization"] = "Bearer " + response.data.token;
+            axios.defaults.headers.common.Authorization = `Bearer ${  response.data.token}`;
             console.log(response)
             if (response.data.success) {
                 loggedin.set(true);
@@ -264,13 +268,14 @@ export class PlacemarkService {
         }
     }
 
+    // eslint-disable-next-line class-methods-use-this
     async logout() {
-        axios.defaults.headers.common["Authorization"] = "";
+        axios.defaults.headers.common.Authorization = "";
         loggedin.set(false);
         isAdmin.set(false);
         currentUserName.set(null);
         localStorage.removeItem("WAHI");
-        push("#/")
+        await push("#/")
         console.log("LOGGED OUT!")
     }
 
@@ -288,12 +293,12 @@ export class PlacemarkService {
                 email: email,
                 password: password,
             };
-            await axios.post(this.baseUrl + "/api/addUser", userDetails);
+            await axios.post(`${this.baseUrl  }/api/addUser`, userDetails);
             // console.log("User created!");
             res = { status : "success", message : "User created!"};
             return res;
         } catch (error) {
-            if (error.response.status == 400) {
+            if (error.response.status === 400) {
                 res = { status : "exists", message : "User already exists"};
             }
             else {

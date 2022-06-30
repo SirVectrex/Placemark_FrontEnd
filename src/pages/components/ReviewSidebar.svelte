@@ -39,7 +39,7 @@
             if (success) {
                 console.log(success)
                 ratingerror = "Thank you for your feedback!"
-                updatePOI()
+                await updatePOI()
             } else {
                 ratingerror = "Something went wrong, please try again later."
                 console.log("error")
@@ -54,7 +54,7 @@
         if (success) {
             console.log(success)
             commenterror = "Thank you for your feedback!"
-            updatePOI()
+            await updatePOI()
         } else {
             console.log(success)
             commenterror = "Something went wrong, please try again later."

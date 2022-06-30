@@ -18,7 +18,7 @@
     async function deleteUser(){
         await placemarkservice.deleteUser(user._id);
         await placemarkservice.logout()
-        push("/")
+        await push("/")
         // sleep for 1000ms to wait for server change
     }
 
@@ -26,7 +26,7 @@
         await placemarkservice.updateMail(newmail)
         user = await placemarkservice.getUserInfo();
         await placemarkservice.logout()
-        push("/login")
+        await push("/login")
     }
 
 </script>

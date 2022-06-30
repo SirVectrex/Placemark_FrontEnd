@@ -74,7 +74,7 @@
     import ReviewSidebar from "./components/ReviewSidebar.svelte";
     import POIMap from "./components/POIMap.svelte";
     import {getContext} from "svelte";
-    import {loggedin, newPOI, reload_map, SelectedPOI, setImage, showReviews} from "../services/stores.js";
+    import {loggedin, newPOI, reloadMap, SelectedPOI, setImage, showReviews} from "../services/stores.js";
     import {onMount} from "svelte";
 
     const placemarkservice = getContext("PlacemarkService");
@@ -128,7 +128,7 @@
         reload = !reload;
     }
 
-    reload_map.subscribe(function (value) {
+    reloadMap.subscribe(function (value) {
             reload = !reload
     })
 

@@ -15,7 +15,7 @@
     // on mount function of svelte
     onMount(async () => {
         if(admin == false){
-            push("/");
+            await push("/");
         }
     });
 

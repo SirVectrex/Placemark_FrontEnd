@@ -44,7 +44,7 @@
                 type: "loading",
                 show: true
             }
-            var formData = new FormData();
+            let formData = new FormData();
             console.log(files)
             formData.append("image", files[0]);
             console.log(formData)

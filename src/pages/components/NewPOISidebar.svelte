@@ -1,7 +1,7 @@
 <script>
     import { push } from "svelte-spa-router";
     import {getContext} from "svelte";
-    import {PointOnMap, newPOI, reload_map} from "/src/services/stores.js"
+    import {PointOnMap, newPOI, reloadMap} from "/src/services/stores.js"
     import Select from 'svelte-select';
     import Message from "./Message.svelte";
 
@@ -47,7 +47,7 @@
 
     let curr;
     // get value of store
-    reload_map.subscribe( (value) => {
+    reloadMap.subscribe( (value) => {
         curr = value;
     });
 
@@ -56,7 +56,7 @@
         if (success.status == "success") {
             await uploadImage(success.newid)
             cancel()
-            reload_map.set(!curr);
+            reloadMap.set(!curr);
 
             /*
             message.type = "is-primary";

@@ -1,5 +1,4 @@
 <script>
-
     import Chart from 'svelte-frappe-charts';
     import {getContext, onMount} from "svelte";
     const placemarkservice = getContext("PlacemarkService");
