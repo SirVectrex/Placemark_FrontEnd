@@ -132,6 +132,7 @@
             reload = !reload
     })
 
+
     newPOI.subscribe(function (value) {
         show_new = value
     })

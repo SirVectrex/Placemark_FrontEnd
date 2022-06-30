@@ -1,5 +1,4 @@
 <script>
-    import { push } from "svelte-spa-router";
     import {getContext} from "svelte";
     import {PointOnMap, newPOI, reloadMap} from "/src/services/stores.js"
     import Select from 'svelte-select';
@@ -51,19 +50,28 @@
         curr = value;
     });
 
+    async function checkfilesize() {
+        if(files[0].size > 5000000) {
+            currentstate = {
+                message: "Image is too big. - wont be uploaded",
+                klass: "is-danger is-light",
+                type: "error",
+                show: true
+            }
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     async function create() {
         let success = await placemarkservice.create(name, description, category.label, lat, long)
-        if (success.status == "success") {
+        if (success.status === "success") {
             await uploadImage(success.newid)
             cancel()
             reloadMap.set(!curr);
 
-            /*
-            message.type = "is-primary";
-            message.message = "Successfully created";
-            message.show = true;
-             */
-        } else if (success.status == "error") {
+        } else if (success.status === "error") {
             message.type = "is-danger";
             message.message = "Error creating";
             message.show = true;
@@ -74,7 +82,6 @@
             message.message =  success.message
             message.show = true;
         }
-
     }
 
     let files = null;
@@ -82,16 +89,6 @@
         // check if file size > 5 MB
         if(files == null )
             return;
-        if(files[0].size > 5000000) {
-            currentstate = {
-                message: "Image is too big.",
-                klass: "is-danger is-light",
-                type: "error",
-                show: true
-            }
-            return;
-        }
-
         try {
             currentstate = {
                 message: "Currently uploading image...",
@@ -102,12 +99,7 @@
             let formData = new FormData();
             formData.append("image", files[0]);
             let success = await placemarkservice.addImage(newID, formData)
-            currentstate = {
-                message: "Image uploaded",
-                klass: "is-success is-light",
-                type: "success",
-                show: true
-            }
+            return true;
         } catch (error) {
             currentstate = {
                 message: "Error uploading image",
@@ -132,9 +124,22 @@
 
     function updateFilename(){
         // wait for 1s
-        setTimeout(() => {
-            console.log(files);
-
+        setTimeout(async () => {
+            if (await checkfilesize() == true) {
+                currentstate = {
+                    message: "Image valid",
+                    klass: "is-success is-light",
+                    type: "success",
+                    show: true
+                }
+            } else {
+                currentstate = {
+                    message: "Image is too big. - won't be uploaded",
+                    klass: "is-danger is-light",
+                    type: "error",
+                    show: true
+                }
+            }
             filename = files[0].name;
         }, 100);
     }

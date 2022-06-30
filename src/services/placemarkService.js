@@ -155,7 +155,6 @@ export class PlacemarkService {
 
     async getPoi(id){
         try {
-            console.log(this.baseUrl)
             const response = await axios.get(`${this.baseUrl  }/api/getPlacemarkbyID/${  id}`);
             // console.log(response)
             return response.data;
