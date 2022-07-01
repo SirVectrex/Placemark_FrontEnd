@@ -156,7 +156,7 @@
 <form id="form" on:submit|preventDefault={create}>
     <div class="field">
         <label for="name" class="label">Name</label>
-        <input bind:value={name} id="name" class="input" type="text" placeholder="Enter POI Name" name="name">
+        <input bind:value={name} id="name" class="input" type="text" placeholder="Enter POI Name" name="name" required>
     </div>
     <div class="field">
         <label for="description" class="label">Description </label>
@@ -171,11 +171,11 @@
         <div class="field-body">
             <div class="field">
                 <label for="lon" class="label">Lon.</label>
-                <input bind:value={long} id="lon" class="input" type="text" placeholder="Longitude" name="longitute">
+                <input bind:value={long} id="lon" class="input" type="text" placeholder="Longitude" name="longitute" required>
             </div>
             <div class="field">
                 <label for="lat" class="label">Lat. </label>
-                <input bind:value={lat}  id="lat" class="input" type="text" placeholder="Latitude" name="latitude">
+                <input bind:value={lat}  id="lat" class="input" type="text" placeholder="Latitude" name="latitude" required>
             </div>
         </div>
     </div>

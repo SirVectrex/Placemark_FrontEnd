@@ -297,7 +297,9 @@ export class PlacemarkService {
             res = { status : "success", message : "User created!"};
             return res;
         } catch (error) {
-            if (error.response.status === 400) {
+            if (error.response.data.message === "\"email\" must be a valid email")
+                res = { status : "error", message : "Email is not valid!"};
+            else if (error.response.status === 400) {
                 res = { status : "exists", message : "User already exists"};
             }
             else {
